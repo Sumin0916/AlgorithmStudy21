@@ -1,0 +1,24 @@
+num=list()
+
+for _ in range(5):
+    a=int(input())
+    num.append(a)
+
+first=num[0]
+last=num[1]
+ice=num[2]
+iced=num[3]
+no_ice=num[4]
+
+result=0
+
+if first<0:
+    result+=-(first*ice)
+    result+=iced
+    result+=no_ice*(last)
+else:
+    result=no_ice*(last-first)
+
+print(result)
+
+#변수 설정이 너무 많음 
