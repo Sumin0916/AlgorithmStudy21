@@ -1,3 +1,6 @@
+"""
+전자레인지
+"""
 now_temp = int(input())
 goal_temp = int(input())
 c = int(input())
