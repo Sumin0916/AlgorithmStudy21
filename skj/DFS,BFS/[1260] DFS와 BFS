@@ -1,0 +1,37 @@
+from collections import deque
+a,b,c=map(int,input().split())
+graph=[[] for _ in range(a+1)]
+
+for _ in range(b):
+    node1,node2=map(int,input().split())
+    graph[node1].append(node2)
+    graph[node2].append(node1)
+
+for node in graph:
+    node.sort()
+
+def dfs(graph,v,visited):
+    visited[v]=True
+    print(v,end=' ')
+    for i in graph[v]:
+        if not visited[i]:
+            visited[i]=True
+            dfs(graph,i,visited)
+
+
+def bfs(graph,v,visited):
+    queue=deque([v])
+    visited[v]=True
+    while queue:
+        a=queue.popleft()
+        print(a,end=' ')
+        for i in graph[a]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i]=True
+
+visited=[False]*(a+1)
+dfs(graph,c,visited)
+print()
+visited=[False]*(a+1)
+bfs(graph,c,visited)
