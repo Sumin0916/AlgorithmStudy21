@@ -1,0 +1,27 @@
+from collections import deque
+start,last=map(int,input().split())
+graph=list()
+count=0
+
+queue=deque([[start,count]])
+visited=[False]*100001
+
+while queue:
+    a=queue.popleft()
+    node=a[0]
+    count=a[1]
+    if not visited[node]:
+        visited[node]=True
+        if node1==last:
+            print(count)
+            break
+        count+=1
+        if (node*2)<=100000:
+            queue.append([node*2,count])  
+        if (node1+1)<=100000:
+            queue.append([node+1,count])    
+        if (node1-1)>=0:
+            queue.append([node-1,count])    
+
+
+
