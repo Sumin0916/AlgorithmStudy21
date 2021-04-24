@@ -1,14 +1,14 @@
 """
-DFS
+DFS 재귀함수 표현
 """
 
-def dfs_search(graph, node, visited):
+def recursive_dfs(node, graph, visited):
     visited[node] = True
     print(node, end=" ")
 
-    for i in graph[node]:
-        if not visited[i]:
-            dfs_search(graph, i, visited)
+    for n in graph[node]:
+        if not visited[n]:
+            recursive_dfs(n, graph, visited)
 
 graph = [
     [],
@@ -24,4 +24,4 @@ graph = [
 
 visited = [False] * len(graph)
 
-dfs_search(graph, 1, visited)
+recursive_dfs(1, graph, visited)

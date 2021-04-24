@@ -1,6 +1,6 @@
 from collections import deque
 """
-BFS
+BFS 첫 번째 연습
 """
 
 def bfs_search(graph, node, visited):
