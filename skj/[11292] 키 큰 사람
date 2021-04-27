@@ -1,0 +1,23 @@
+while True:
+    N=int(input())
+    if N==0:
+        break
+    
+    people={}
+    for _ in range(N):
+        name,height=input().split()
+        people[name]=height
+    
+    result=sorted(people.items(),key=lambda item:item[1])
+    max_num=max(people,key=lambda k:people[k])
+    b=people[max_num]
+    person=list()
+    for i,j in people.items():
+        if j==b:
+            person.append(i)
+            
+    for k in person:
+        print(k,end=' ')
+    print()
+            
+        
