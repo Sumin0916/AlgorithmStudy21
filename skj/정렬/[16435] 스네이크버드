@@ -1,0 +1,9 @@
+N,start=map(int,input().split())
+fruits=list(map(int,input().split()))
+
+fruits.sort()
+
+for fruit in fruits:
+    if start>=fruit:
+        start+=1
+print(start)
