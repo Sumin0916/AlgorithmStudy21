@@ -2,8 +2,8 @@ n, m = map(int, input().split())
 x, y, d = map(int, input().split())
 
 # 게임 맵 저장
-game_map = [[0]*n for _ in range(m)]
-for i in range(m):
+game_map = [[0]*m for _ in range(n)]
+for i in range(n):
     tmp = list(map(int, input().split()))
     game_map[i] = tmp
 
@@ -14,7 +14,7 @@ dy = [0, 1, 0, -1]
 # 지나간 곳들 저장
 remember_data = [(x, y)]
 
-result = 0
+result = 1
 
 while True:
     for i in range(4):
@@ -37,7 +37,6 @@ while True:
         if game_map[next_x][next_y] == 1:
             break
         else:
-            result += 1
             x = next_x
             y = next_y
 
@@ -48,7 +47,7 @@ print(remember_data)
 print(d)
 
         
-    
+
 
 
 
