@@ -11,7 +11,7 @@ dy = [0, 1, 0, - 1]
 
 ice_cream_list = [{(-1, -1)}]
 
-
+# 1차 약팔이 과정
 for i in range(n):
     for j in range(m):
         cnt = 0
@@ -39,6 +39,7 @@ print(ice_cream_list)
 
 result_list = []
 
+# 2차 약팔이 과정, 중복 되있는 거 제거
 for v in range(len(ice_cream_list)):
     if ice_cream_list[v] not in result_list and ice_cream_list[v] != {(-1, -1)}:
         result_list.append(ice_cream_list[v])
@@ -47,7 +48,7 @@ print(result_list)
 print(len(result_list))
 real_result_list = []
 
-
+# 3차 약팔이 과정, 두 요소간 교집합이 공집합이 되도록
 for a in range(len(result_list)):
     proof = 0
     for b in range(len(result_list)):
