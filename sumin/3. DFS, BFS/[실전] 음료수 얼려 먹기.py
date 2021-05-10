@@ -1,50 +1,82 @@
 """
 음료수 얼려 먹기
+
+새로운 방법으로 구현해야만 한다.
 """
 
-def dfs_search(x,y, array, visited):
-    if array[y][x] == 0:
-        array[y][x] = 1
-        visited.append([x, y])
+ice_tray = []
 
-    if y+1 <= len(array) - 1:
-        if array[y+1][x] == 0:
-            dfs_search(x, y+1, array, visited)
+class PacMan():
+    def __init__(self, array):
+        self.y = 0
+        self.x = 0
+        self.max_row = len(array) - 1
+        self.max_col = len(array[0]) - 1
+        self.short_term_mem = [None, None]
+        self.array = array
+        self.direc_point = [
+            (1, 0),
+            (0, 1),
+            (-1, 0),
+            (0, -1)
+        ] 
+    
+    def navi_perimeter(self): # 주변을 탐색한 결과를 리스트 형식으로 반환 
+        r = self.y
+        c = self.x
+        peri_lst = [None * 4]
+        search_point = [(r+1,c),(r,c+1),(r-1,c),(r,c-1)] # 아래 오른쪽 위 왼쪽
+    
+        for i in range(4):
+            t_col = search_point[i][0]
+            t_row = search_point[i][1]
+            if 0 <= t_col <= self.max_row and 0 <= t_row <= self.max_col:
+                if self.array[t_row][t_col] == 1:
+                    peri_lst[i] = 1
+                
+                else:
+                    peri_lst[i] = 0
 
-    if x+1 <= len(array[0]) - 1:
-        if array[y][x+1] == 0:
-            dfs_search(x+1, y, array, visited)
+        return peri_lst
+    def set_start(self, row, col):
+        self.y = row
+        self.x = col
 
-    else:
-        p = visited.pop()
-        if len(visited) == 0:
-            return
-        dfs_search(p[0], p[1], array, visited)
-# dfs 알고리즘을 완벽하게 구현하지 못했다...
+    def move(self): # 지점에서 한 칸 움직이기
+        num_move = 0
+        col = self.x
+        row = self.y
+        self.array[row][col] = 0
+        peri_lst = self.navi_perimeter()
+        
+        for i in range(4):
+            if peri_lst[i] == 1:
+                self.y += self.direc_point[i][0]
+                self.x += self.direc_point[i][1]
+                num_move = 1
+                return 1
+        
+        if num_move == 0:
+            self.set_start(self.short_term_mem[0],self.short_term_mem[1])
+            num_move = self.move() # 뒤로 돌아가기
 
-row, column = map(int, input().split())
-ice_mold = []
+            if num_move == 0: # 뒤로가서도 움직임 횟수가 0이면 0반환
+                return 0
 
-for _ in range(row):
-    tmp = input()
-    tmp_lst = []
-    for __ in tmp:
-        if __ == "0":
-            tmp_lst.append(0)
-        else:
-            tmp_lst.append(1)
+    def record_loc(self):
+        self.short_term_mem = [self.y, self.x]
 
-    ice_mold.append(tmp_lst)
 
-ice_cream = 0
+n, m = map(int, input().split())
 
-for i in range(row):
-    for j in range(column):
-        if ice_mold[i][j] == 0:
-            print(i, j)
-            visited_mem = []
-            dfs_search(j, i, ice_mold, visited_mem)
-            ice_cream += 1
-print(ice_mold)
+for _ in range(n):
+    ice_tray.append(list(map(int, input())))
 
-print(ice_cream)
+pacman = PacMan(ice_tray)
+
+for i in range(n):
+    for j in range(m):
+        if ice_tray[i][j] == 1:
+            pacman.set_start(i, j)
+            pacman.move()
+            
