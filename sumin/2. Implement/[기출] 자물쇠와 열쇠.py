@@ -3,7 +3,7 @@ import copy
 2020 카카오 채용
 프로그래머스 60059
 
-모든 테스트 케이스를 통과하지는 못했다.
+모든 테스트 케이스를 통과하지는 못했다..
 """
 def check_unlock(key, kx, ky, lock, n, m):
     max_indx = min(n - 1, kx + m)
