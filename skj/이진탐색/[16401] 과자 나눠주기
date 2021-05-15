@@ -1,0 +1,22 @@
+m,n=map(int,input().split())
+snack=list(map(int,input().split()))
+
+def solution(num):
+    cnt=0
+    for i in snack:
+        cnt+=i//num
+    return cnt
+
+start=1
+end=max(snack)
+
+temp=0
+while start<=end:
+    mid=(start+end)//2
+    if solution(mid)>=m:
+        temp=mid
+        start=mid+1
+    else:
+        end=mid-1
+
+print(temp)
