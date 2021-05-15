@@ -1,0 +1,28 @@
+x,y=map(int,input().split())
+
+start=1
+end=1000000000
+result=y*100//x
+
+def solution(num):
+    if ((y+num)*100)//(x+num)>result:
+        return ((y+num)*100)//(x+num)
+    else:
+        return -1
+   
+temp=0
+while start<=end:
+    mid=(start+end)//2
+    if solution(mid)>result:
+        temp=mid
+        end=mid-1
+    else:
+        start=mid+1
+if temp!=0:
+    print(temp)
+else:
+    print(-1)
+
+
+
+
