@@ -1,0 +1,24 @@
+import sys
+s,c=map(int,sys.stdin.readline().split())
+pa=[int(sys.stdin.readline()) for _ in range(s)]
+
+def solution(num):
+    cnt=0
+    for i in pa:
+        cnt+=i//num
+    return cnt
+
+start=1
+end=max(pa)
+temp=0
+result=0
+while start<=end:
+    mid=(start+end)//2
+    if solution(mid)<c:
+        end=mid-1
+    else:
+        start=mid+1
+        temp=mid
+        result=sum(pa)-temp*c
+    
+print(result)
