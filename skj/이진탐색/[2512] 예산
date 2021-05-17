@@ -1,0 +1,26 @@
+n=int(input())
+money=list(map(int,input().split()))
+total=int(input())
+money.sort()
+
+start=0
+end=money[-1]
+
+def solution(num):
+    sum=0
+    for i in money:
+        if i>num:
+            sum+=num
+        else:
+            sum+=i
+    return sum
+
+temp=0
+while start<=end:
+    mid=(start+end)//2
+    if solution(mid)>total:
+        end=mid-1
+    else:
+        start=mid+1
+        temp=mid
+print(temp)
