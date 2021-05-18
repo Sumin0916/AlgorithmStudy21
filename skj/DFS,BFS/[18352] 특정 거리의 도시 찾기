@@ -1,0 +1,30 @@
+from collections import deque
+import sys
+n,m,k,x=map(int,sys.stdin.readline().split())
+
+graph=[[] for _ in range(n+1)]
+
+for _ in range(m):
+    node1,node2=map(int,sys.stdin.readline().split())
+    graph[node1].append(node2)
+
+def bfs(graph,v,visited):
+    num=[0]*(n+1)
+    num[v]=1
+    queue=deque([v])
+    visited[v]=True
+    while queue:
+        a=queue.popleft()
+        for i in graph[a]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i]=True
+                num[i]=num[a]+1
+    for i in range(len(num)):
+        if num[i]==k+1:
+            print(i)
+    if k+1 not in num:
+        print(-1)
+
+visited=[False]*(n+1)
+bfs(graph,x,visited)
