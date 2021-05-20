@@ -1,0 +1,7 @@
+for _ in range(int(input())):
+    a,b=input().split()
+    result=''
+    for i in range(len(a)):
+        if a[i]!=b[i]:
+            result+=a[i]
+    print(max(result.count('0'),result.count('1')))
