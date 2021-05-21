@@ -1,0 +1,16 @@
+n=int(input())
+num=list(map(int,input().split()))
+
+result=[n]
+
+for i in range(n-2,-1,-1):
+    if num[i]==len(result):
+        result.append(i+1)
+    elif num[i]<len(result):
+        result.insert(num[i],i+1)
+    else:
+        result.append(i+1)
+
+for i in result:
+    print(i,end=' ')
+
