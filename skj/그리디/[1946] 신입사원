@@ -1,0 +1,38 @@
+import sys
+
+for _ in range(int(sys.stdin.readline())):
+    n=int(input())
+    num=[list(map(int,sys.stdin.readline().split())) for _ in range(n)]
+    
+    
+    one=sorted(num,key=lambda x:x[0])
+    cnt=1
+    min=one[0][1]
+
+    for i in range(1,n):
+        if one[i][1]<min:
+            min=one[i][1]
+            cnt+=1        
+        
+    print(cnt)
+    
+   ----------------------------------------------
+   시간초과 발생하는 코드
+  
+import sys
+
+for _ in range(int(sys.stdin.readline())):
+    n=int(input())
+    num=[list(map(int,sys.stdin.readline().split())) for _ in range(n)]
+    
+    
+    one=sorted(num,reverse=True,key=lambda x:x[0])
+    check=[1]*(n-1)
+    check.append(0)
+    for i in range(n-1):
+        for j in range(i+1,n):
+            if one[i][1]>one[j][1]:
+                check[i]+=1
+                break
+    print(n-check.count(2))
+         
