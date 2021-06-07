@@ -1,0 +1,27 @@
+city=int(input())
+bus=int(input())
+
+num=[[100000000]*city for _ in range(city)]
+
+for i in range(bus):
+    a,b,c=map(int,input().split())
+    if num[a-1][b-1]>c:
+        num[a-1][b-1]=c
+
+for k in range(city):
+    for i in range(city):
+        for j in range(city):
+            if i!=j:
+                num[i][j]=min(num[i][j],num[i][k]+num[k][j])
+                
+
+
+for i in num:
+    for j in i:
+        if j==100000000:
+            print(0,end=' ')
+        else:
+            print(j,end=' ')
+    print()
+
+
