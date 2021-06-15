@@ -1,0 +1,22 @@
+to=int(input())
+do,to_m=map(int,input().split())
+do_kcal=int(input())
+
+temp=list()
+for _ in range(to):
+    temp.append(int(input()))
+
+temp.sort()
+
+max_num=0
+
+while temp:
+    result=(do_kcal+sum(temp))//(do+len(temp)*to_m)
+    if result>max_num:
+        max_num=result
+    temp.pop(0)
+
+if max_num>(do_kcal//do):
+    print(max_num)
+else:
+    print(do_kcal//do)
