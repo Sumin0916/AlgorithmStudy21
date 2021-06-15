@@ -1,0 +1,19 @@
+from itertools import combinations_with_replacement
+
+
+num=[1,5,10,50]
+
+n=int(input())
+
+result=list(combinations_with_replacement(num,n))
+
+temp=list()
+
+for idx in result:
+    sum=0
+    for i in range(n):
+        sum+=idx[i]
+    temp.append(sum)
+
+temp=set(temp)
+print(len(temp))
