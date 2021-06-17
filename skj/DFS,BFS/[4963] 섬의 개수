@@ -21,7 +21,6 @@ def bfs(x,y):
 while True:
     w,h=map(int,input().split())
     graph=list()
-    visited=[[False for _ in range(w)] for _ in range(h)]
     cnt=0
     if w==0 and h==0:
         sys.exit(0)  
