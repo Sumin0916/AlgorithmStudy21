@@ -1,0 +1,16 @@
+n,m=map(int,input().split())
+card=list(map(int,input().split()))
+
+cnt=0
+sum_num=0
+
+while m>cnt:
+    card.sort()
+    sum_num=card[0]+card[1]
+    card[0],card[1]=sum_num,sum_num
+    cnt+=1
+
+print(sum(card))
+
+
+
