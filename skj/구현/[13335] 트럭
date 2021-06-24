@@ -1,0 +1,16 @@
+n,m,weight=map(int,input().split())
+truck=list(map(int,input().split()))
+
+time=0
+temp=[0]*m
+
+while temp:
+    time+=1
+    temp.pop(0)
+    if truck:
+        if sum(temp)+truck[0]<=weight:
+            temp.append(truck.pop(0))
+        else:
+            temp.append(0)
+print(time)
+        
