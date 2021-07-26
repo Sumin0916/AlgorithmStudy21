@@ -1,39 +1,35 @@
 import sys
 
 n = int(sys.stdin.readline().rstrip())
-seq = []
-
+lst = list()
 for _ in range(n):
-    seq.append(int(input()))
+    lst.append(int(input()))
 
-num_ary = [x for x in range(1, n+1)]
-res_ary = [0]
-answer = []
+bus = 1
 
-for num in seq:
-    if num in num_ary:
-        dif = num - res_ary[-1]
-        for _ in range(dif):
+stack = list()
+answer = list()
+
+while lst:
+    want = lst.pop(0)
+    while True:
+        if want >= bus:
             answer.append("+")
-            res_ary.append(num_ary.pop(0))
-        answer.append("-")
-        res_ary.pop()
+            stack.append(bus)
+            bus += 1
 
-    else:
-        if res_ary[-1] == num:
-            answer.append("-")
-            res_ary.pop()
         else:
-            answer.append(-1)
+            if stack[-1] == want:
+                answer.append("-")
+                stack.pop()
+            else:
+                answer.append(0)
             break
-print(num_ary)
-print(res_ary)
-print(answer)
-if answer[-1] == -1:
-    print("NO")
-else:
-    for c in answer:
-        print(c)
 
+    if answer[-1] == 0:
+        print("NO")
+        break
 
-
+if answer[-1] != 0:
+    for a in answer:
+        print(a)
