@@ -41,10 +41,12 @@ def rotate(m):
             ret[c][3-r] = m[r][c]
     return ret
 
+
 def flip(block):
     for i in range(2):
         for j in range(4):
             block[j][i], block[j][3 - i] = block[j][3 - i], block[j][i]
+    return block
 
 
 def get_score(ary, block, n, m, i, j):
@@ -75,7 +77,7 @@ for i in range(n):
             for r in range(4):
                 block = rotate(block)
                 for f in range(2):
-                    flip(block)
+                    block = flip(block)
                     temp = get_score(array, block, n, m, i, j)
                     if temp > score:
                         score = temp
