@@ -1,0 +1,42 @@
+from collections import deque
+import sys
+n,m=map(int,sys.stdin.readline().split())
+graph=[]
+for _ in range(n):
+    graph.append(list(sys.stdin.readline()))
+
+
+pos=deque()
+flag=0
+pos.append((0,0,1,flag))
+
+dx=[-1,1,0,0]
+dy=[0,0,-1,1]
+test=False
+num=n*m
+
+while pos:
+    x,y,count,flag=pos.popleft()
+    graph[x][y]=2
+    if x==n-1 and y==m-1:
+        test=True
+        if num>count:
+            num=count
+    for i in range(4):
+        nx=x+dx[i]
+        ny=y+dy[i]
+        if 0<=nx<n and 0<=ny<m:
+            if graph[nx][ny]=='0':
+                pos.append((nx,ny,count+1,flag))
+            elif graph[nx][ny]=='1':
+                if flag==0:
+                    pos.append((nx,ny,count+1,1))
+                else:
+                    continue
+if test:
+    print(num)
+else:
+    print(-1)
+    
+------------------------------------------------
+시간초과 발생...
