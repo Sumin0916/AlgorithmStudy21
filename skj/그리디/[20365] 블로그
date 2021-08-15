@@ -1,0 +1,20 @@
+n=int(input())
+color=list(input())
+
+B=0
+R=0
+
+if color[0]=='R':
+    R+=1
+else:
+    B+=1
+
+for i in range(n-1):
+    if color[i]=='R':
+        if color[i+1]!='R':
+            B+=1
+    else:
+        if color[i+1]!='B':
+            R+=1
+
+print(min(B,R)+1)
