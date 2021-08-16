@@ -1,0 +1,19 @@
+exp=input().split('-')
+
+result=list()
+
+answer=0
+for i in exp:
+    cnt=0
+    s=i.split('+')
+    for j in s:
+        cnt+=int(j)
+    result.append(cnt)
+
+for k in range(len(result)):
+    if k>0:
+        answer-=result[k]
+    else:
+        answer+=result[k]
+
+print(answer)
