@@ -1,0 +1,42 @@
+import sys
+input=sys.stdin.readline
+n=int(input())
+
+water=list(map(int,input().split()))
+
+result_a,result_b=0,0
+
+minus=[]
+plus=[]
+
+for w in water:
+    if w<0:
+        minus.append(w)
+    else:
+        plus.append(w)
+
+minus.sort()
+plus.sort()
+result=float("INF")
+
+for p in plus:
+    mp=-p
+    start=0
+    end=len(minus)-1
+    while start<=end:
+        mid=(start+end)//2
+        if result>abs(p+minus[mid]):
+            result=abs(p+minus[mid])
+            result_a=minus[mid]
+            result_b=p
+
+        if minus[mid]>mp:
+            end=mid-1
+        else:
+            start=mid+1
+
+print(result_a,result_b)
+
+
+-------------------------------------------------------
+30%에서 실패한다.. 흠 플러스를 기준으로 잡고 minus를 돌면서 구하려 했는데 아닌가보다..
