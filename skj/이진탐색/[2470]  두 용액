@@ -40,3 +40,37 @@ print(result_a,result_b)
 
 -------------------------------------------------------
 30%에서 실패한다.. 흠 플러스를 기준으로 잡고 minus를 돌면서 구하려 했는데 아닌가보다..
+
+
+import sys
+input=sys.stdin.readline
+n=int(input())
+
+water=list(map(int,input().split()))
+
+water.sort()
+
+start=0
+end=n-1
+result=abs(water[start]+water[end])
+a,b=0,n-1
+
+while start<end:
+    temp=water[start]+water[end]
+    if abs(temp)<=result:
+        a=water[start]
+        b=water[end]
+        result=abs(temp)
+        if abs(temp)==0:
+            break
+    if temp>0:
+        end-=1
+    else:
+        start+=1
+
+print(a,b)  
+
+성공!!
+
+
+
