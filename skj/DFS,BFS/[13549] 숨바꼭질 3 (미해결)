@@ -24,6 +24,34 @@ while time:
         
    -------------------------------------
    시간초과가 발생..
+   
+   
+   
+   from collections import deque
+import sys
+input=sys.stdin.readline
+n,k=map(int,input().split())
+
+time=deque([[n,0]])
+visited=set()
+visited.add(n)
+result=0
+while time:
+    a,b=time.popleft()
+    if a==k:
+        print(b)
+        sys.exit(0)
+    if 0<=a-1<100001 and a-1 not in visited:
+        visited.add(a-1)
+        time.append([a-1,b+1])
+    if 0<a*2<100001 and a*2 not in visited:
+        visited.add(a*2)
+        time.append([a*2,b])
+    if 0<=a+1<100001 and a+1 not in visited:
+        visited.add(a+1)
+        time.append([a+1,b+1])
+        
+if문 순서만 바꿨을 뿐인데... 해결 완료...
 
 
 
