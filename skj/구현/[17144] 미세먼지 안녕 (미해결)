@@ -1,0 +1,136 @@
+import copy
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+for _ in range(t):
+    pos=[]
+    air=[]
+    for i in range(r):
+        for j in range(c):
+            if graph[i][j]!=0 and graph[i][j]!=-1:
+                pos.append([i,j])
+                visited[i][j]=True
+            elif graph[i][j]==-1:
+                air.append([i,j])
+
+    dx=[-1,0,1,0]
+    dy=[0,1,0,-1]
+
+    position=[]
+
+    while pos:
+        x,y=pos.pop(0)
+        cnt=0
+        for k in range(4):
+            nx=x+dx[k]
+            ny=y+dy[k]
+            if 0<=nx<r and 0<=ny<c and graph[nx][ny]!=-1:
+                cnt+=1
+                if visited[nx][ny]:
+                    position.append([nx,ny,graph[x][y]//5])
+                else:
+                    graph[nx][ny]+=graph[x][y]//5
+        graph[x][y]-=(graph[x][y]//5)*cnt
+
+
+    while position:
+        a,b,num=position.pop(0)
+        graph[a][b]+=num
+
+    
+    up=[]
+    down=[]
+    temp=0
+    dx,dy=0,0
+    count=0
+    for x,y in air:
+        temp=0
+        if count==0:
+            count+=1
+            up.append([x,y+1,graph[x][y+1]])
+            graph[x][y+1]=0
+            while up:
+                a,b,num=up.pop(0)
+                if a==x and b==y:
+                    break
+                if a==x and b<c:
+                    if b!=c-1:
+                        temp=graph[a][b+1]
+                        graph[a][b+1]=num
+                        up.append([a,b+1,temp])
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        up.append([a-1,b,temp])
+                elif a<x and b==c-1:
+                    if a>0:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        up.append([a-1,b,temp])
+                    elif a==0:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        up.append([a,b-1,temp])
+                elif a==0 and 0<b<c-1:
+                    temp=graph[a][b-1]
+                    graph[a][b-1]=num
+                    up.append([a,b-1,temp])
+                elif a==0 and b==0:
+                    temp=graph[a+1][b]
+                    graph[a+1][b]=num
+                    up.append([a+1,b,temp])
+        else:
+            down.append([x,y+1,graph[x][y+1]])
+            graph[x][y+1]=0
+            while down:
+                a,b,num=down.pop(0)
+                if a==x and b==y:
+                    break
+                if a==x and b<c:
+                    if b!=c-1:
+                        temp=graph[a][b+1]
+                        graph[a][b+1]=num
+                        down.append([a,b+1,temp])
+                    else:
+                        temp=graph[a+1][b]
+                        graph[a+1][b]=num
+                        down.append([a+1,b,temp])
+                elif a>x and b==c-1:
+                    if a==r-1:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        down.append([a,b-1,temp])
+                    else:
+                        temp=graph[a+1][b]
+                        graph[a+1][b]=num
+                        down.append([a+1,b,temp])
+                elif a==r-1 and 0<=b<c-1:
+                    if b!=0:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        down.append([a,b-1,temp])
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        down.append([a-1,b,temp])
+                elif a<r-1 and b==0:
+                    if a-1==x:
+                        break
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        down.append([a-1,b,temp])
+    
+answer=0
+print(graph)
+for i in graph:
+    answer+=sum(i)
+print(answer+2)
+
+
+------------------------------------------------
+극악무도한 코드양이다.. 일단 예제는 다 통과하지만 그래도 시간초과 말고도 오류가 있을거 같음... 효율적인 풀이가 뭘까..
