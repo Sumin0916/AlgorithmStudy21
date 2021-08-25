@@ -30,32 +30,35 @@ def can_corruption(graph, height, row, col, mh, mr, mc):
 def bfs_search(graph):
     queue = deque()
     day = -1
+    stat = False
     for i in range(height):
         for j in range(row):
             for k in range(col):
                 if graph[i][j][k] == 1:
                     queue.append((i, j, k))
+                if graph[i][j][k] == 0:
+                    stat = True
+    if not queue:
+        return -1
+    if not stat and queue:
+        return 0
     while True:
         day += 1
         temp = []
         while queue:
             h, r, c = queue.popleft()
             res = can_corruption(graph, h, r, c, height, row, col)
-            for floor in graph:
-                for wid in floor:
-                    print(wid)
-            print(res)
-            print()
+
             if res:
                 temp.extend(res)
-            else:
-                for i in range(height):
-                    for j in range(row):
-                        for k in range(col):
-                            if graph[i][j][k] == 0:
-                                return -1
-                return day
         queue.extend(temp)
+        if not queue:
+            for i in range(height):
+                for j in range(row):
+                    for k in range(col):
+                        if graph[i][j][k] == 0:
+                            return -1
+            return day
 
 
 print(bfs_search(box))
