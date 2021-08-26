@@ -134,3 +134,83 @@ print(answer+2)
 
 ------------------------------------------------
 극악무도한 코드양이다.. 일단 예제는 다 통과하지만 그래도 시간초과 말고도 오류가 있을거 같음... 효율적인 풀이가 뭘까..
+
+
+
+import copy
+import sys
+input=sys.stdin.readline
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+
+def airclear(x, y, diff):
+    for i in range(4):
+        while True:
+            nowx, nowy = x+dx[diff[i]], y+dy[diff[i]] 
+            if 0<=nowx<r and 0<=nowy<c and a[nowx][nowy] == -1: 
+                return 
+            if 0<=nowx<r and 0<=nowy<c: 
+                a[nowx][nowy] = graph[x][y] 
+            else: 
+                break 
+            x,y = nowx, nowy
+
+for _ in range(t):
+    pos=[]
+    air=[]
+    visited=[[False]*c for _ in range(r)]
+    for i in range(r):
+        for j in range(c):
+            if graph[i][j]!=0 and graph[i][j]!=-1:
+                pos.append([i,j])
+                visited[i][j]=True
+            elif graph[i][j]==-1:
+                air.append([i,j])
+
+    dx=[0,0,1,-1]
+    dy=[1,-1,0,0]
+
+    position=[]
+
+    while pos:
+        x,y=pos.pop(0)
+        cnt=0
+        for k in range(4):
+            nx=x+dx[k]
+            ny=y+dy[k]
+            if 0<=nx<r and 0<=ny<c and graph[nx][ny]!=-1:
+                cnt+=1
+                if visited[nx][ny]:
+                    position.append([nx,ny,graph[x][y]//5])
+                else:
+                    graph[nx][ny]+=graph[x][y]//5
+        graph[x][y]-=(graph[x][y]//5)*cnt
+
+    while position:
+        a,b,num=position.pop(0)
+        graph[a][b]+=num
+
+    a=copy.deepcopy(graph)
+    
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,3,1,2])
+    a[x][y+1]=0
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,2,1,3])
+    a[x][y+1]=0
+
+    graph=copy.deepcopy(a)
+
+answer=0
+for i in a:
+    answer+=sum(i)
+print(answer+2)
+
+
+---------------------------------------------------
+바이트 수는 확 줄었는데도 시간초과...pypy3로도 시간초과라니..
