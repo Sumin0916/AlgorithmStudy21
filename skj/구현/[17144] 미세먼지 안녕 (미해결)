@@ -214,3 +214,67 @@ print(answer+2)
 
 ---------------------------------------------------
 바이트 수는 확 줄었는데도 시간초과...pypy3로도 시간초과라니..
+
+
+
+import copy
+import sys
+input=sys.stdin.readline
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+dx=[0,0,1,-1]
+dy=[1,-1,0,0]
+
+def airclear(x, y, diff):
+    for i in range(4):
+        while True:
+            nowx, nowy = x+dx[diff[i]], y+dy[diff[i]] 
+            if 0<=nowx<r and 0<=nowy<c and a[nowx][nowy] == -1: 
+                return 
+            if 0<=nowx<r and 0<=nowy<c: 
+                a[nowx][nowy] = arr[x][y] 
+            else: 
+                break 
+            x,y = nowx, nowy
+
+for _ in range(t):
+    arr=[[0]*c for _ in range(r)]
+    air=[]
+    for x in range(r):
+        for y in range(c):
+            if graph[x][y]==0:
+                continue
+            if graph[x][y]==-1:
+                arr[x][y]=-1
+                air.append([x,y])
+                continue
+            cnt=0
+            for k in range(4):
+                nowx,nowy=x+dx[k],y+dy[k]
+                if 0<=nowx<r and 0<=nowy<c and graph[nowx][nowy]!=-1:
+                    arr[nowx][nowy]+=graph[x][y]//5
+                    cnt+=1
+            arr[x][y]+=graph[x][y]-(graph[x][y]//5)*cnt
+
+    a=copy.deepcopy(arr)
+    
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,3,1,2])
+    a[x][y+1]=0
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,2,1,3])
+    a[x][y+1]=0
+
+    graph=copy.deepcopy(a)
+
+answer=0
+for i in a:
+    answer+=sum(i)
+print(answer+2)
+
+해결완료 기존에 visitied에서 시간을 엄청 잡아 먹은 것 같다
