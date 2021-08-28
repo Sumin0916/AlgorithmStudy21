@@ -1,3 +1,7 @@
+import sys
+import copy
+input = sys.stdin.readline
+
 n, m = map(int, input().split())
 tetrominos = [
     [
@@ -33,13 +37,12 @@ tetrominos = [
 ]
 
 
-def rotate(m):
-    ret = [[0] * 4 for _ in range(4)]
-
+def rotate(block):
+    ret = copy.deepcopy(block)
     for r in range(4):
         for c in range(4):
-            ret[c][3-r] = m[r][c]
-    return ret
+            block[c][3-r] = ret[r][c]
+    return block
 
 
 def flip(block):
@@ -49,37 +52,51 @@ def flip(block):
     return block
 
 
-def get_score(ary, block, n, m, i, j):
-    copy_ary = [[0, 0, 0, 0] for _ in range(4)]
-    sumi = 0
-    ti = i - 3
-    for a in range(4):
-        tj = j - 3
-        for b in range(4):
-            if 0 <= ti < n and 0 <= tj < m:
-                copy_ary[a][b] = ary[ti][tj]
-            tj += 1
-        ti += 1
-    for a in range(4):
-        for b in range(4):
-            if block[a][b] == 1 and copy_ary[a][b] != 0:
-                sumi += copy_ary[a][b]
-    return sumi
+def get_points(block):
+    points = []
+    for i in range(4):
+        for j in range(4):
+            if block[i][j] == 1:
+                points.append([i, j])
+    return points
 
 
-score = -1
+def get_score(points, ary, row, col):
+    score = 0
+    std_r = points[0][0]
+    std_c = points[0][1]
+    for i in range(4):
+        points[i][0] -= std_r
+        points[i][1] -= std_c
+    for i in range(4):
+        new_row = row + points[i][0]
+        new_col = col + points[i][1]
+        if 0 <= new_row < n and 0 <= new_col < m:
+            score += ary[new_row][new_col]
+        else:
+            return -1
+    return score
+
+
 array = [list(map(int, input().split())) for _ in range(n)]
-# 0~2 대칭 x 1은 회전 X
+res = 0
+point_block = []
+point_block.append(get_points(tetrominos[0]))
+point_block.append(get_points(tetrominos[1]))
+
+for i in range(5):
+    for r in range(4):
+        if i != 1:
+            rotate(tetrominos[i])
+        for f in range(2):
+            if not (i == 0 or i == 1):
+                flip(tetrominos[i])
+                point_block.append(get_points(tetrominos[i]))
 for i in range(n):
     for j in range(m):
-        for b in range(5):
-            block = tetrominos[b]
-            for r in range(4):
-                block = rotate(block)
-                for f in range(2):
-                    block = flip(block)
-                    temp = get_score(array, block, n, m, i, j)
-                    if temp > score:
-                        score = temp
+        for p in point_block:
+            score = get_score(p, array, i, j)
+            if res < score:
+                res = score
 
-print(score)
+print(res)
