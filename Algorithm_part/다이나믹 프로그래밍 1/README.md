@@ -1,6 +1,5 @@
 # Dynamic Programming 1 (동적계획법 1)
 
-[메인으로 돌아가기](https://github.com/tony9402/baekjoon)
 
 다이나믹 프로그래밍 유형 쉬운 문제 위주로 뽑았습니다.
 
