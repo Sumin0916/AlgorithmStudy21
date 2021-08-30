@@ -1,0 +1,134 @@
+n,m=map(int,input().split())
+num=list()
+
+for _ in range(n):
+    num.append(list(map(int,input().split())))
+
+def rotated(a):
+    n = len(a)
+    m = len(a[0])
+    result = [[0]* n for _ in range(m)]
+    for i in range(n):
+        for j in range(m):
+            result[j][n-i-1] = a[i][j]
+    return result
+
+def one(x,y,n,m):
+    result=0
+    for i in range(4):
+        if 0<=x<n and 0<=y+i<m: 
+            result+=num[x][y+i]
+        else:
+            return 0
+    return result
+
+def two(x,y,n,m):
+    result=0
+    for i in range(2):
+        for j in range(2):
+            if 0<=x+i<n and 0<=y+j<m:
+                result+=num[x+i][y+j]
+            else:
+                return 0
+    return result
+
+def three(x,y,n,m):
+    result=0
+    for i in range(3):
+        if 0<=x+i<n and 0<=y<m:
+            result+=num[x+i][y]
+        else:
+            return 0
+    x=x+2
+    if 0<=x<n and 0<=y+1<m:
+        result+=num[x][y+1]
+        return result
+    else: 
+        return 0
+
+def three_reverse(x,y,n,m):
+    result=0
+    y+=1
+    for i in range(3):
+        if 0<=x+i<n and 0<=y<m:
+            result+=num[x+i][y]
+    y-=1
+    x+=2
+    if 0<=x<n and 0<=y<m:
+        result+=num[x][y]
+        return result
+    else:
+        return 0
+
+def four(x,y,n,m):
+    result=0
+    for i in range(2):
+        if 0<=x+i<n and 0<=y<m:
+            result+=num[x+i][y]
+        else:
+            return 0
+    y+=1
+    x+=1
+    for j in range(2):
+        if 0<x+i<n and 0<=y<m:
+            result+=num[x+j][y]
+        else:
+            return 0
+    return result
+
+def four_reverse(x,y,n,m):
+    result=0
+    y+=1
+    for i in range(2):
+        if 0<=x+i<n and 0<=y<m:
+            result+=num[x+i][y]
+        else:
+            return 0
+    y-=1
+    x+=1
+    for j in range(2):
+        if 0<x+i<n and 0<=y<m:
+            result+=num[x+j][y]
+        else:
+            return 0
+    return result
+    
+def five(x,y,n,m):
+    result=0
+    for i in range(3):
+        if 0<=y+i<m and 0<=x<n:
+            result+=num[x][y+i]
+    if 0<=x+1<n and 0<=y+1<m:
+        result+=num[x+1][y+1]
+        return result
+    else:
+        return 0
+
+def five_reverse(x,y,n,m):
+    result=0
+    for i in range(3):
+        if 0<=x+1<n and 0<=y+i<m:
+            result+=num[x+1][y+i]
+    if 0<=x<n and 0<=y+1<m:
+        result+=num[x][y+1]
+        return result
+    else: 
+        return 0
+
+max_num=0
+for a in range(4):
+    num=rotated(num)
+    if a%2==0:
+        for x in range(m):
+            for y in range(n):
+                max_num=max(max_num,one(x,y,m,n),two(x,y,m,n),three(x,y,m,n),four(x,y,m,n),five(x,y,m,n),three_reverse(x,y,m,n),four_reverse(x,y,m,n),five_reverse(x,y,m,n))
+    else:
+        for x in range(n):
+            for y in range(m):
+                max_num=max(max_num,one(x,y,n,m),two(x,y,n,m),three(x,y,n,m),four(x,y,n,m),five(x,y,n,m),three_reverse(x,y,n,m),four_reverse(x,y,n,m),five_reverse(x,y,n,m))
+
+print(max_num)
+
+
+------------------------------------------------
+일일이 함수를 만들었는데 이것보다 더 좋은 방법이 없을까??
