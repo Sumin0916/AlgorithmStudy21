@@ -1,0 +1,48 @@
+from collections import deque
+import sys
+input=sys.stdin.readline
+N,L,R=map(int,input().split())
+
+#L<=인구차이 <=R
+graph=[]
+
+for _ in range(N):
+    graph.append(list(map(int,input().split())))
+dx=[-1,0,1,0]
+dy=[0,1,0,-1]
+
+def bfs(i,j):
+    pos=deque()
+    temp=list()
+    temp.append((i,j))
+    pos.append((i,j))
+    while pos:
+        x,y=pos.popleft()
+        for k in range(4):
+            nx=x+dx[k]
+            ny=y+dy[k]
+            if 0<=nx<N and 0<=ny<N and visited[nx][ny]==0:
+                if L<=abs(graph[x][y]-graph[nx][ny])<=R:
+                    visited[nx][ny]=1
+                    pos.append((nx,ny))
+                    temp.append((nx,ny))
+    return temp
+
+count=0
+while True:
+    visited=[[0]*N for _ in range(N)]
+    flag=False
+    for a in range(N):
+        for b in range(N):
+            if visited[a][b]==0:
+                visited[a][b]=1
+                temp=bfs(a,b)
+                if len(temp)>1:
+                    flag=True
+                    num=sum(graph[x][y] for x,y in temp)//len(temp)
+                    for x,y in temp:
+                        graph[x][y]=num
+    if flag==False:
+        break
+    count+=1
+print(count)

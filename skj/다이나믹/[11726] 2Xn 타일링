@@ -1,0 +1,13 @@
+n=int(input())
+
+dp=[]
+dp.append(1)
+dp.append(2)
+
+for i in range(0,n+1):
+    num=dp[i]+dp[i+1]
+    dp.append(num)
+
+
+print(dp[n-1]%10007)
+

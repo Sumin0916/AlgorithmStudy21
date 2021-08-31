@@ -1,0 +1,17 @@
+n,L=map(int,input().split())
+water=list(map(int,input().split()))
+
+water.sort()
+
+cnt=1
+start=water[0]-0.5
+end=water[0]+L-0.5
+
+for i in water:
+    if end>=i>=start:
+        pass
+    else:
+        start=i-0.5
+        end=i+L-0.5
+        cnt+=1
+print(cnt)

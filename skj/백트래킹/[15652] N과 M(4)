@@ -1,0 +1,14 @@
+N, M = map(int, input().split())
+visited = [False] * N  # 탐사 여부 check
+out = []  # 출력 내용
+
+idx=0
+def solve(depth,idx):
+    if depth==M:
+        print(' '.join(map(str,out)))
+        return
+    for i in range(idx,N):
+        out.append(i+1)
+        solve(depth+1,idx=i)
+        out.pop()
+solve(0,0)

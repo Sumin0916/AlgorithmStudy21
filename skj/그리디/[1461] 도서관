@@ -1,0 +1,37 @@
+n,m=map(int,input().split())
+pos=list(map(int,input().split()))
+plus=[]
+minus=[]
+count=[]
+
+for i in pos:
+    if i>0:
+        plus.append(i)
+    else:
+        minus.append(abs(i))
+
+plus.sort(reverse=True)
+minus.sort(reverse=True)
+
+while plus:
+    if len(plus)>m:
+        count.append(plus[0])
+        for _ in range(m):
+            plus.pop(0)
+    else:
+        count.append(plus[0])
+        while plus:
+            plus.pop(0)
+while minus:
+    if len(minus)>m:
+        count.append(minus[0])
+        for _ in range(m):
+            minus.pop(0)
+    else:
+        count.append(minus[0])
+        while minus:
+            minus.pop(0)
+count.sort()
+result=count.pop()
+result+=2*sum(count)
+print(result)

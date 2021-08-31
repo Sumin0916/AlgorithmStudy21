@@ -1,0 +1,34 @@
+from itertools import combinations
+import sys
+input=sys.stdin.readline
+n=int(input())
+
+num=list()
+for _ in range(n):
+    num.append(list(map(int,input().split())))
+
+temp=[i for i in range(n)]
+result=list(combinations(temp,n//2))
+
+min_num=10000
+for i in range(len(result)//2):
+    rev=result[i]
+    start=0
+    for j in rev:
+        for k in rev:
+            start+=num[j][k]
+    rev=result[-i-1]
+    link=0
+    for j in rev:
+        for k in rev:
+            link+=num[j][k]
+
+    if min_num>abs(start-link):
+        min_num=abs(start-link)
+
+print(min_num)
+        
+    
+
+
+

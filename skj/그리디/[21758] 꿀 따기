@@ -1,0 +1,82 @@
+import sys
+input=sys.stdin.readline
+n=int(input())
+num=list(map(int,input().split()))
+
+max_num=0
+
+def left(num,n):
+    start=n-1
+    end=n-2
+    min_num=0
+    while end>0:
+        cnt=0
+        cnt+=sum(num[:end])
+        cnt+=sum(num[:start])
+        cnt-=num[end]
+        if cnt>min_num:
+            min_num=cnt
+        end-=1
+    return min_num
+
+def right(num,n):
+    start=0
+    end=1
+    min_num=0
+    while end<n:
+        cnt=0
+        cnt+=sum(num[start:])
+        cnt-=num[start]
+        cnt+=sum(num[end:])
+        cnt-=num[end]*2
+        if cnt>min_num:
+            min_num=cnt
+        end+=1
+    return min_num
+
+def mid(num,n):
+    cnt=0
+    mid=n//2
+    cnt+=sum(num[:mid+1])
+    cnt+=sum(num[mid:])
+    cnt-=num[0]
+    cnt-=num[-1]
+    return cnt
+
+a=left(num,n)
+b=right(num,n)
+c=mid(num,n)
+print(max(a,b,c))
+
+------------------------------------------------------
+55점 맞은 코드... 100점 다시 도전.. 흠..
+
+
+
+import sys
+input=sys.stdin.readline
+n=int(input())
+num=list(map(int,input().split()))
+
+left=0
+right=0
+mid=sum(num[:n//2+1])+sum(num[n//2:])-num[0]-num[-1]
+
+total = l_total = sum(num[1:n])
+rtotal = r_total = sum(num[0:n-1])
+l_max = r_max = 0
+for i in range(1, n-1):
+    l_total -= 2 * num[i]
+    if l_max < l_total:
+        l_max = l_total
+    l_total += num[i]
+for i in range(n-2, -1, -1):
+    r_total -= 2 * num[i]
+    if r_max < r_total:
+        r_max = r_total
+    r_total += num[i]
+print(max(mid, l_max+total, r_max+rtotal))
+
+
+sum을 반복해서 안쓰니까 통과..
+

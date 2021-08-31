@@ -1,0 +1,27 @@
+import sys
+input=sys.stdin.readline
+n,m=map(int,input().split())
+name=list()
+score=list()
+
+for i in range(n):
+    name.append(input().split())
+
+def search(x):
+    start=0
+    end=n
+    result=0
+    while start<=end:
+        mid=(start+end)//2
+        if x<=int(name[mid][1]):
+            result=mid
+            end=mid-1
+        else:
+            start=mid+1
+    return name[result][0]
+
+for _ in range(m):
+    score.append(int(input()))
+
+for k in score:
+    print(search(k))

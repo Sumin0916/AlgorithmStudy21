@@ -1,0 +1,32 @@
+width,height=map(int,input().split())
+market=int(input())
+num=list()
+
+def distance(x,y):
+    if x==1:
+        return y
+    elif x==2:
+        return width+height+width-y
+    elif x==3:
+        return width+height+width+height-y
+    elif x==4:
+        return width+y
+
+for _ in range(market):
+    a,b=map(int,input().split())
+    num.append(distance(a,b))
+x,y=map(int,input().split())
+pos=distance(x,y)
+
+answer=0
+for i in num:
+    answer+=min(abs(pos-i),2*(width+height)-abs(pos-i))
+print(answer)
+
+
+
+
+
+
+
+

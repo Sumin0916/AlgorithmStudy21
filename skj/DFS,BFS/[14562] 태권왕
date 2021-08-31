@@ -1,0 +1,38 @@
+# def kick(s, t, cnt):
+#     global min_kick
+#     if s > t:
+#         return
+#     elif s == t:
+#         min_kick = min(min_kick, cnt)
+#         return
+#     else:
+#         kick(s*2, t+3, cnt+1)
+#         kick(s+1, t, cnt+1)
+
+# for t in range(int(input())):
+#     S, T = map(int, input().split())
+#     min_kick = T - S
+#     kick(S, T, 0)
+#     print(min_kick)
+
+
+import sys
+for _ in range(int(sys.stdin.readline())):
+    cnt=0
+    result=list()
+    s,t=map(int,sys.stdin.readline().split())
+    result.append([s,t,cnt])
+    while result:
+        a,b,c=result.pop(0)
+        if a!=b:
+            if 2*a>b and c==0:
+                print(b-a)
+                break
+            result.append([2*a,b+3,c+1])
+            result.append([a+1,b,c+1])
+            cnt+=1
+            
+        elif a==b:
+            print(c)
+            break
+시간초과를 해결 하지 못함 재귀로 호출하면 시간 단축, 재귀에 좀 약한편 재귀 공부 좀 다시 할것!

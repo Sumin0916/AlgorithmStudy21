@@ -1,0 +1,280 @@
+import copy
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+for _ in range(t):
+    pos=[]
+    air=[]
+    for i in range(r):
+        for j in range(c):
+            if graph[i][j]!=0 and graph[i][j]!=-1:
+                pos.append([i,j])
+                visited[i][j]=True
+            elif graph[i][j]==-1:
+                air.append([i,j])
+
+    dx=[-1,0,1,0]
+    dy=[0,1,0,-1]
+
+    position=[]
+
+    while pos:
+        x,y=pos.pop(0)
+        cnt=0
+        for k in range(4):
+            nx=x+dx[k]
+            ny=y+dy[k]
+            if 0<=nx<r and 0<=ny<c and graph[nx][ny]!=-1:
+                cnt+=1
+                if visited[nx][ny]:
+                    position.append([nx,ny,graph[x][y]//5])
+                else:
+                    graph[nx][ny]+=graph[x][y]//5
+        graph[x][y]-=(graph[x][y]//5)*cnt
+
+
+    while position:
+        a,b,num=position.pop(0)
+        graph[a][b]+=num
+
+    
+    up=[]
+    down=[]
+    temp=0
+    dx,dy=0,0
+    count=0
+    for x,y in air:
+        temp=0
+        if count==0:
+            count+=1
+            up.append([x,y+1,graph[x][y+1]])
+            graph[x][y+1]=0
+            while up:
+                a,b,num=up.pop(0)
+                if a==x and b==y:
+                    break
+                if a==x and b<c:
+                    if b!=c-1:
+                        temp=graph[a][b+1]
+                        graph[a][b+1]=num
+                        up.append([a,b+1,temp])
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        up.append([a-1,b,temp])
+                elif a<x and b==c-1:
+                    if a>0:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        up.append([a-1,b,temp])
+                    elif a==0:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        up.append([a,b-1,temp])
+                elif a==0 and 0<b<c-1:
+                    temp=graph[a][b-1]
+                    graph[a][b-1]=num
+                    up.append([a,b-1,temp])
+                elif a==0 and b==0:
+                    temp=graph[a+1][b]
+                    graph[a+1][b]=num
+                    up.append([a+1,b,temp])
+        else:
+            down.append([x,y+1,graph[x][y+1]])
+            graph[x][y+1]=0
+            while down:
+                a,b,num=down.pop(0)
+                if a==x and b==y:
+                    break
+                if a==x and b<c:
+                    if b!=c-1:
+                        temp=graph[a][b+1]
+                        graph[a][b+1]=num
+                        down.append([a,b+1,temp])
+                    else:
+                        temp=graph[a+1][b]
+                        graph[a+1][b]=num
+                        down.append([a+1,b,temp])
+                elif a>x and b==c-1:
+                    if a==r-1:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        down.append([a,b-1,temp])
+                    else:
+                        temp=graph[a+1][b]
+                        graph[a+1][b]=num
+                        down.append([a+1,b,temp])
+                elif a==r-1 and 0<=b<c-1:
+                    if b!=0:
+                        temp=graph[a][b-1]
+                        graph[a][b-1]=num
+                        down.append([a,b-1,temp])
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        down.append([a-1,b,temp])
+                elif a<r-1 and b==0:
+                    if a-1==x:
+                        break
+                    else:
+                        temp=graph[a-1][b]
+                        graph[a-1][b]=num
+                        down.append([a-1,b,temp])
+    
+answer=0
+print(graph)
+for i in graph:
+    answer+=sum(i)
+print(answer+2)
+
+
+------------------------------------------------
+극악무도한 코드양이다.. 일단 예제는 다 통과하지만 그래도 시간초과 말고도 오류가 있을거 같음... 효율적인 풀이가 뭘까..
+
+
+
+import copy
+import sys
+input=sys.stdin.readline
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+
+def airclear(x, y, diff):
+    for i in range(4):
+        while True:
+            nowx, nowy = x+dx[diff[i]], y+dy[diff[i]] 
+            if 0<=nowx<r and 0<=nowy<c and a[nowx][nowy] == -1: 
+                return 
+            if 0<=nowx<r and 0<=nowy<c: 
+                a[nowx][nowy] = graph[x][y] 
+            else: 
+                break 
+            x,y = nowx, nowy
+
+for _ in range(t):
+    pos=[]
+    air=[]
+    visited=[[False]*c for _ in range(r)]
+    for i in range(r):
+        for j in range(c):
+            if graph[i][j]!=0 and graph[i][j]!=-1:
+                pos.append([i,j])
+                visited[i][j]=True
+            elif graph[i][j]==-1:
+                air.append([i,j])
+
+    dx=[0,0,1,-1]
+    dy=[1,-1,0,0]
+
+    position=[]
+
+    while pos:
+        x,y=pos.pop(0)
+        cnt=0
+        for k in range(4):
+            nx=x+dx[k]
+            ny=y+dy[k]
+            if 0<=nx<r and 0<=ny<c and graph[nx][ny]!=-1:
+                cnt+=1
+                if visited[nx][ny]:
+                    position.append([nx,ny,graph[x][y]//5])
+                else:
+                    graph[nx][ny]+=graph[x][y]//5
+        graph[x][y]-=(graph[x][y]//5)*cnt
+
+    while position:
+        a,b,num=position.pop(0)
+        graph[a][b]+=num
+
+    a=copy.deepcopy(graph)
+    
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,3,1,2])
+    a[x][y+1]=0
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,2,1,3])
+    a[x][y+1]=0
+
+    graph=copy.deepcopy(a)
+
+answer=0
+for i in a:
+    answer+=sum(i)
+print(answer+2)
+
+
+---------------------------------------------------
+바이트 수는 확 줄었는데도 시간초과...pypy3로도 시간초과라니..
+
+
+
+import copy
+import sys
+input=sys.stdin.readline
+r,c,t=map(int,input().split())
+
+graph=[]
+visited=[[False]*c for _ in range(r)]
+for _ in range(r):
+    graph.append(list(map(int,input().split())))
+
+dx=[0,0,1,-1]
+dy=[1,-1,0,0]
+
+def airclear(x, y, diff):
+    for i in range(4):
+        while True:
+            nowx, nowy = x+dx[diff[i]], y+dy[diff[i]] 
+            if 0<=nowx<r and 0<=nowy<c and a[nowx][nowy] == -1: 
+                return 
+            if 0<=nowx<r and 0<=nowy<c: 
+                a[nowx][nowy] = arr[x][y] 
+            else: 
+                break 
+            x,y = nowx, nowy
+
+for _ in range(t):
+    arr=[[0]*c for _ in range(r)]
+    air=[]
+    for x in range(r):
+        for y in range(c):
+            if graph[x][y]==0:
+                continue
+            if graph[x][y]==-1:
+                arr[x][y]=-1
+                air.append([x,y])
+                continue
+            cnt=0
+            for k in range(4):
+                nowx,nowy=x+dx[k],y+dy[k]
+                if 0<=nowx<r and 0<=nowy<c and graph[nowx][nowy]!=-1:
+                    arr[nowx][nowy]+=graph[x][y]//5
+                    cnt+=1
+            arr[x][y]+=graph[x][y]-(graph[x][y]//5)*cnt
+
+    a=copy.deepcopy(arr)
+    
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,3,1,2])
+    a[x][y+1]=0
+    x,y=air.pop(0)
+    airclear(x,y+1,[0,2,1,3])
+    a[x][y+1]=0
+
+    graph=copy.deepcopy(a)
+
+answer=0
+for i in a:
+    answer+=sum(i)
+print(answer+2)
+
+해결완료 기존에 visitied에서 시간을 엄청 잡아 먹은 것 같다

@@ -1,0 +1,34 @@
+n=int(input())
+num=int(input())
+student=list(map(int,input().split()))
+
+pic=list()
+check=[0]*(max(student)+1)
+
+
+for i in student:
+    min_num=num
+    idx=0
+    print(check)
+    print(pic)
+    if i not in pic:
+        if len(pic)>=n:
+            for j in range(n):
+                if min_num>check[pic[j]]:
+                    min_num=check[pic[j]]
+                    idx=j
+                    a=pic[idx]
+            del pic[idx]
+            check[a]=0
+            pic.append(i)
+            check[i]+=1
+            continue
+        pic.append(i)
+        check[i]+=1
+    else:
+        check[i]+=1
+
+pic.sort()
+for k in pic:
+    print(k,end=' ')
+    

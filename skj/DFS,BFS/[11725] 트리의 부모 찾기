@@ -1,0 +1,28 @@
+from collections import defaultdict,deque
+n=int(input())
+
+graph=defaultdict(list)
+for _ in range(n-1):
+    a,b=map(int,input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+#부모,자식 추가
+def bfs(start):
+    visited=[0]*(n+1)
+    visited[start]=1
+    pos=deque([start])
+    result=list()
+    while pos:
+        num=pos.popleft()
+        for i in graph[num]:
+            if not visited[i]:
+                visited[i]=1
+                result.append((num,i))
+                pos.append(i)
+    return result
+
+temp=bfs(1)
+temp.sort(key=lambda x:x[1])
+for i,j in temp:
+    print(i)

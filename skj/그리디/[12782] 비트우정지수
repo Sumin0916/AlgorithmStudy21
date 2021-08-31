@@ -1,0 +1,31 @@
+for _ in range(int(input())):
+    a,b=input().split()
+    result=''
+    for i in range(len(a)):
+        if a[i]!=b[i]:
+            result+=a[i]
+    print(max(result.count('0'),result.count('1')))
+    
+    ----------------------------------------------------------------------------------------------------
+    
+for _ in range(int(input())):
+    a,b=input().split()
+    cnt=0
+    zero=0
+    one=0
+    for i,j in zip(a,b):
+        if i!=j:
+            if i=='0':
+                zero+=1
+            else:
+                one+=1
+    if zero>one:
+        print(one+(zero-one))
+    elif zero==one:
+        print(zero)
+    else:
+        print(zero+(one-zero))    
+    
+    
+    
+    

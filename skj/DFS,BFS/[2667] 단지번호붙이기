@@ -1,0 +1,43 @@
+from collections import deque
+n=int(input())
+graph=list()
+
+for _ in range(n):
+    graph.append(list(input()))
+
+def bfs(graph,x,y):
+    visited[x][y]=True
+    q=deque()
+    q.append((x,y))
+    dx=[-1,1,0,0]
+    dy=[0,0,-1,1]
+    ny,ny=0,0
+    cnt=0
+    while q:
+        a,b=q.popleft()
+        cnt+=1
+        for d in range(4):
+            nx=a+dx[d]
+            ny=b+dy[d]
+            if nx<0 or ny<0 or nx>=n or ny>=n:
+                continue
+            if graph[nx][ny]=='1' and not visited[nx][ny]:
+                visited[nx][ny]=True
+                q.append((nx,ny))
+    return cnt
+            
+visited=[[False for _ in range(n)] for _ in range(n)]
+result=list()
+num=0
+for x in range(n):
+    for y in range(n):
+        if graph[x][y]=='1' and not visited[x][y]:
+            num=bfs(graph,x,y)
+            result.append(num)
+            num=0
+
+result.sort()
+print(len(result))
+for i in result:
+    print(i)
+
