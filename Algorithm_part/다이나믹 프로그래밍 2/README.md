@@ -1,7 +1,5 @@
 # Dynamic Programming 2 (동적계획법 2)
 
-[메인으로 돌아가기](https://github.com/tony9402/baekjoon)
-
 다이나믹 프로그래밍 유형 문제 위주로 뽑았습니다.
 
 다이나믹 프로그래밍은 점화식을 세우면 절반 이상은 풀었다고 볼 수 있습니다.
