@@ -1,0 +1,16 @@
+from bisect import bisect_right,bisect_left
+import sys
+input=sys.stdin.readline
+n,m=map(int,input().split())
+
+dot=list(map(int,input().split()))
+dot.sort()
+line=[]
+
+for _ in range(m):
+    line.append(list(map(int,input().split())))
+
+for a,b in line:
+    right=bisect_right(dot,b)
+    left=bisect_left(dot,a)
+    print(right-left)
