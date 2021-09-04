@@ -1,0 +1,28 @@
+from itertools import combinations
+import sys
+input=sys.stdin.readline
+n,m=map(int,input().split())
+
+error=[]
+answer=0
+num=[i for i in range(1,n+1)]
+
+for _ in range(m):
+    error.append(list(map(int,input().split())))
+
+result=list(combinations(num,3))
+check=[0]*len(result)
+answer=len(result)
+
+while error:
+    a,b=error.pop(0)
+    for r in range(len(result)):
+        if check[r]==1:
+            continue
+        if a in result[r] and b in result[r]:
+            check[r]=1
+
+print(answer-sum(check))
+
+
+시간초과 발생 ㅡㅡ
