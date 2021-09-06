@@ -1,0 +1,22 @@
+import sys
+input=sys.stdin.readline
+from itertools import product
+n,k=map(int,input().split())
+
+num=list(map(int,input().split()))
+
+length=len(str(n))
+
+num.sort(reverse=True)
+
+while True:
+    result=list(product(num,repeat=length))
+    number=''
+    for i in result:
+        number=''
+        for j in i:
+            number+=str(j)
+        if int(n)>=int(number):
+            print(number)
+            sys.exit(0)
+    length-=1
