@@ -1,0 +1,22 @@
+from itertools import permutations
+
+n=int(input())
+k=int(input())
+
+num=[]
+for _ in range(n):
+    num.append(int(input()))
+
+answer=list(permutations(num,k))
+
+result=[]
+
+for i in range(len(answer)):
+    temp=''
+    for j in answer[i]:
+        temp+=str(j)
+    result.append(int(temp))
+
+result=list(set(result))
+print(len(result))
+

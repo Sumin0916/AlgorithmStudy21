@@ -1,0 +1,44 @@
+n,m=map(int,input().split())
+
+word=[]
+for _ in range(n):
+    word.append(input())
+
+answer=''
+cnt=0
+for i in range(m):
+    idx=0
+    w=0
+    DNA=[[0],[0],[0],[0]] #A,C,T,G
+    for j in range(n):
+        if word[j][i]=='A':
+            DNA[0][0]+=1
+        elif word[j][i]=='C':
+            DNA[1][0]+=1
+        elif word[j][i]=='G':
+            DNA[2][0]+=1
+        elif word[j][i]=='T':
+            DNA[3][0]+=1
+
+    for k in range(4):
+        if DNA[k][0]>w:
+            w=DNA[k][0]
+            idx=k
+
+    if idx==0:
+        answer+='A'
+    elif idx==1:
+        answer+='C'
+    elif idx==2:
+        answer+='G'
+    elif idx==3:
+        answer+='T'
+
+    DNA[idx][0]=0
+
+    for a in range(4):
+        cnt+=sum(DNA[a])
+    
+
+print(answer)
+print(cnt)
