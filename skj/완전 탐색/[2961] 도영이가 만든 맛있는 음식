@@ -1,0 +1,22 @@
+from itertools import combinations
+n=int(input())
+num=[i for i in range(n)]
+taste=[]
+for _ in range(n):
+    taste.append(list(map(int,input().split())))
+
+idx=1
+answer=1e9
+while idx<=n:
+    check=list(combinations(num,idx))
+    s_taste,b_taste=1,0
+    while check:
+        com=check.pop(0)
+        s_taste,b_taste=1,0
+        for c in com:
+            s_taste*=taste[c][0]
+            b_taste+=taste[c][1]
+        answer=min(answer,abs(s_taste-b_taste))
+    idx+=1
+
+print(answer)
