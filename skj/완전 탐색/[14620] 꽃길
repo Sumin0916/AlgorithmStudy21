@@ -1,0 +1,48 @@
+from itertools import combinations
+import sys
+input=sys.stdin.readline
+n=int(input())
+
+board=[]
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+num=[]
+for i in range(1,n-1):
+    for j in range(1,n-1):
+        num.append((i,j))
+
+pos=list(combinations(num,3))
+
+dx=[-1,0,1,0]
+dy=[0,-1,0,1]
+
+min_money=1e9
+idx=0
+while pos:
+    p=pos.pop(0)
+    temp=[(p[0]),(p[1]),(p[2])]
+    flag=True
+    money=0
+    for k in range(3):
+        for i in range(4):
+            nx=p[k][0]+dx[i]
+            ny=p[k][1]+dy[i]
+            if nx<0 or ny<0 or nx>=n or ny>=n:
+                flag=False
+                break
+            else:
+                temp.append((nx,ny))
+    length=len(temp)
+    temp=list(set(temp))
+
+    if length!=len(temp):
+        flag=False
+
+    if flag:
+        while temp:
+            x,y=temp.pop(0)
+            money+=board[x][y]
+        min_money=min(money,min_money)
+
+print(min_money)
