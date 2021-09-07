@@ -1,0 +1,19 @@
+s=input()
+t=input()
+
+flag=0
+
+def dfs(s):
+    global flag
+    if s==t:
+        flag=1
+        return
+    elif (s not in t and s[::-1] not in t):
+        return 
+    else:
+        dfs(s+'A')
+        dfs((s+'B')[::-1])
+
+dfs(s)
+print(flag)
+
