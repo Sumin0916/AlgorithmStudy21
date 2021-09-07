@@ -38,3 +38,46 @@ else:
     
  --------------------------------------------
  맞왜틀 시전중... 뭐가 문제니
+ 
+ 
+ 
+ 
+ from itertools import combinations
+import sys
+word=input()
+n=int(input())
+
+length=len(word)
+
+book=[]
+for _ in range(n):
+    book.append(input().split())
+
+idx=1
+answer=[]
+
+while idx<=n:
+    check=list(combinations(book,idx))
+    for c in check:
+        temp=''
+        money=0
+        for i in range(len(c)):
+            temp+=c[i][1]
+            money+=int(c[i][0])
+        flag=True
+
+        for w in word:
+            print(w)
+            if w in temp:
+                temp=temp.replace(w,'a',1)
+            else:
+                flag=False
+                break
+        if flag:
+            answer.append(money)
+    idx+=1           
+
+if answer:
+    print(min(answer))
+else:
+    print(-1)
