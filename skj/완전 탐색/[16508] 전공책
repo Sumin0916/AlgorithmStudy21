@@ -81,3 +81,5 @@ if answer:
     print(min(answer))
 else:
     print(-1)
+    
+ex)AAA이면 함정에 빠짐
