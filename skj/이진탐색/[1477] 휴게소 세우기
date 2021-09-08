@@ -1,0 +1,24 @@
+N,M,L=map(int,input().split())
+
+pos=list(map(int,input().split()))
+pos.append(0)
+pos.append(L-1)
+pos.sort()
+
+start=0
+end=L-1
+
+answer=0
+
+while start<=end:
+    mid=(start+end)//2
+    cnt=0
+    for i in range(1,len(pos)):
+        if pos[i]-pos[i-1]>mid:
+            cnt+=(pos[i]-pos[i-1]-1)//mid
+    if cnt>M:
+        start=mid+1
+    else:
+        answer=mid
+        end=mid-1
+print(answer)
