@@ -1,0 +1,41 @@
+from collections import deque
+N,M=map(int,input().split())
+
+bridge=[[] for _ in range(N+1)]
+
+graph=[]
+for _ in range(M):
+    node1,node2,weight=map(int,input().split())
+    graph.append((node1,node2,weight))
+    bridge[node1].append([node2,weight])
+    bridge[node2].append([node1,weight])
+
+x,y=map(int,input().split())
+
+def bfs(mid):
+    visited=[False for _ in range(N+1)]
+    visited[x]=True
+    queue=deque([x])
+    while queue:
+        a=queue.popleft()
+        if a==y:
+            return True
+        for node,w in bridge[a]:
+            if visited[node-1]==False and mid<=w:
+                visited[node-1]=True
+                queue.append(node)
+    return False            
+    
+start=1
+end=1000000000
+result=0
+while start<=end:
+    mid=(start+end)//2
+    if bfs(mid):
+        result=mid
+        start=mid+1
+    else:
+        end=mid-1
+print(result)
+
+
