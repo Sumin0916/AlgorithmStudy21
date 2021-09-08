@@ -1,0 +1,18 @@
+N=int(input())
+water=list(map(int,input().split()))
+
+water.sort()
+
+result=abs(water[0]+water[-1]+water[N//2])
+
+start=0
+end=N-1
+
+while start<end:
+    mid=(start+end)//2
+    if abs(water[start]+water[end]+water[mid])>result:
+        start=mid+1
+    else:
+        result=mid
+        end=mid-1
+print(water[start],water[result],water[end])
