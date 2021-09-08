@@ -1,0 +1,27 @@
+n,k=map(int,input().split())
+
+start=1
+end=n
+
+slice=0
+flag=False
+while start<=end:
+    mid=(start+end)//2
+    paper=1
+    cnt=0
+    slice=n-mid
+    paper+=mid
+    paper=(slice+1)*paper
+    if paper==k:
+        flag=True
+        break
+    elif paper>k:
+        start=mid+1
+    else:
+        end=mid-1
+
+if flag:
+    print('YES')
+else:
+    print('NO')
+
