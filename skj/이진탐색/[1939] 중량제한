@@ -1,4 +1,6 @@
 from collections import deque
+import sys 
+input=sys.stdin.readline
 N,M=map(int,input().split())
 
 bridge=[[] for _ in range(N+1)]
@@ -21,8 +23,8 @@ def bfs(mid):
         if a==y:
             return True
         for node,w in bridge[a]:
-            if visited[node-1]==False and mid<=w:
-                visited[node-1]=True
+            if visited[node]==False and mid<=w:
+                visited[node]=True
                 queue.append(node)
     return False            
     
