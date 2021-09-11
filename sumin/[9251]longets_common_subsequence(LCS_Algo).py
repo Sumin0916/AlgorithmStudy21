@@ -1,0 +1,3 @@
+first = input()
+second = input()
+
