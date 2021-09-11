@@ -1,0 +1,11 @@
+n,k=map(int,input().split())
+num=list(map(int,input().split()))
+
+temp=[]
+for i in range(n-1):
+    temp.append(num[i+1]-num[i])
+temp.sort()
+answer=0
+for j in range(n-k):
+    answer+=temp[j]
+print(answer)
