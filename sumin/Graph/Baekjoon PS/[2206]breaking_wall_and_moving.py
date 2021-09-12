@@ -16,7 +16,6 @@ res = 0
 
 while queue:
     tqueue = deque()
-    print(queue)
     while queue:
         row, col, stat = queue.popleft()
         if row == N-1 and col == M-1:
@@ -28,33 +27,32 @@ while queue:
             break
         if stat == 1:
             for i in range(4):
-                r, c = jumping_direc[i]
+                r, c = direc[i]
                 nr = row + r
                 nc = col + c
-                a, b = direc[i]
                 if 0 <= nr < N and 0 <= nc < M:
-                    if not visited[nr][nc] and graph[nr][nc] == 0 and graph[row+a][col+b] == 1:
+                    if not visited[nr][nc] and graph[nr][nc] == 0:
                         tqueue.append([nr, nc, 1])
-                        visited[nr][nc] = True
+                        visited[nr][nc] = 2
 
         else:
             for r, c in direc:
                 nr = row + r
                 nc = col + c
                 if 0 <= nr < N and 0 <= nc < M:
-                    if not visited[nr][nc] and graph[nr][nc] == 0:
-                        tqueue.append([nr, nc, 0])
-                        visited[nr][nc] = True
-
+                    if visited[nr][nc] != 1:
+                        if graph[nr][nc] == 0:
+                            tqueue.append([nr, nc, 0])
+                            visited[nr][nc] = 1
             for i in range(4):
                 r, c = jumping_direc[i]
+                a, b = direc[i]
                 nr = row + r
                 nc = col + c
-                a, b = direc[i]
                 if 0 <= nr < N and 0 <= nc < M:
                     if not visited[nr][nc] and graph[nr][nc] == 0 and graph[row+a][col+b] == 1:
                         tqueue.append([nr, nc, 1])
-                        visited[nr][nc] = True
+                        visited[nr][nc] = 2
 
     if res:
         break
