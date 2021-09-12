@@ -1,0 +1,15 @@
+n,m=map(int,input().split())
+num=list(map(int,input().split()))
+num.sort()
+
+result=[]
+def dfs(x,idx):
+    if len(result)==m:
+        print(' '.join(result))
+        return 
+    for i in range(idx,n):
+        result.append(str(num[i]))
+        dfs(x,i)
+        result.pop()
+
+dfs(0,0)
