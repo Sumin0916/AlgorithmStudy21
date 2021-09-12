@@ -1,0 +1,17 @@
+n,m=map(int,input().split())
+num=list(map(int,input().split()))
+num.sort()
+
+
+result=[]
+def dfs(depth,N,M):
+    if len(result)==m:
+        print(' '.join(result))
+        return 
+    for i in range(n):
+        result.append(str(num[i]))
+        dfs(depth+1,N,M)
+        result.pop()
+
+dfs(0,n,m)
+
