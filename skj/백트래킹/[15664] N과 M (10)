@@ -1,0 +1,23 @@
+n,m=map(int,input().split())
+num=list(map(int,input().split()))
+num.sort()
+
+result=[]
+visited=[False]*n
+
+def dfs(x,idx):
+    if len(result)==m:
+        a=' '.join(result)
+        print(a)
+        return 
+    last=0
+    for i in range(idx,n):
+        if not visited[i] and last!=num[i]:
+            result.append(str(num[i]))
+            visited[i]=True
+            last=num[i]
+            dfs(x,i+1)    #현재 위치
+            result.pop()
+            visited[i]=False
+        
+dfs(0,0)
