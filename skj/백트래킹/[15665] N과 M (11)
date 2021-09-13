@@ -1,0 +1,20 @@
+n,m=map(int,input().split())
+num=list(map(int,input().split()))
+num.sort()
+
+result=[]
+visited=[False]*n
+
+def dfs(x):
+    if len(result)==m:
+        print(' '.join(map(str,result)))
+        return 
+    last=0
+    for i in range(n):
+        if num[i]!=last:
+            result.append(num[i])
+            last=num[i]
+            dfs(x)
+            result.pop()
+
+dfs(0)
