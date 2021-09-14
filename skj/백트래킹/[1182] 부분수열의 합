@@ -1,0 +1,20 @@
+from itertools import combinations
+n,target=map(int,input().split())
+num=list(map(int,input().split()))
+
+num.sort()
+
+answer=0
+
+for i in range(1,n+1):
+    result=list(combinations(num,i))
+    for j in result:
+        if sum(j)==target:
+            answer+=1
+
+print(answer)
+
+
+----------------------
+비 백트래킹스러운 풀이
+
