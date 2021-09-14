@@ -18,3 +18,25 @@ print(answer)
 ----------------------
 비 백트래킹스러운 풀이
 
+
+n,target=map(int,input().split())
+num=list(map(int,input().split()))
+
+
+answer=0
+def dfs(idx,result):
+    global answer
+    if idx>=n: 
+        return 
+
+    result+=num[idx]
+    if result==target:
+        answer+=1
+    
+    dfs(idx+1,result)
+    dfs(idx+1,result-num[idx])
+
+dfs(0,0)
+print(answer)
+
+
