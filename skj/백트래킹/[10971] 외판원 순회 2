@@ -1,0 +1,30 @@
+import sys
+input=sys.stdin.readline
+n=int(input())
+
+graph=[]
+
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+min_value=1e9
+
+def dfs(start,next,value,visited):
+    global min_value
+
+    if len(visited)==n:
+        if graph[next][start]!=0:
+            min_value=min(min_value,value+graph[next][start])
+        return 
+
+    for i in range(n):
+        if start!=i and i not in visited and graph[next][i]!=0:
+            visited.append(i)
+            dfs(start,i,value+graph[next][i],visited)
+            visited.pop()
+
+for i in range(n):
+    dfs(i,i,0,[i])
+print(min_value)
+    
+
