@@ -22,4 +22,28 @@ print(answer)
 ----------------------------
 비 백트래킹 같은 풀이
 
+n,k=map(int,input().split())
+
+num=list(map(int,input().split()))
+
+answer=0
+
+visited=[False]*n
+def dfs(depth,mus):
+    global answer
+    if depth==n:
+        answer+=1
+        return 
+
+    for i in range(len(num)):
+        if visited[i]==True or mus<500:
+            continue
+        visited[i]=True
+        dfs(depth+1,mus-k+num[i])
+        visited[i]=False
+       
+
+dfs(0,500)
+print(answer) 
+
         
