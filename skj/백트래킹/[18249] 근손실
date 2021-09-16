@@ -1,0 +1,25 @@
+from itertools import permutations
+n,k=map(int,input().split())
+
+num=list(map(int,input().split()))
+number=[i for i in range(n)]
+temp=list(permutations(number,n))
+
+
+answer=0
+for i in temp:
+    mus=500
+    flag=1
+    for j in i:
+        mus+=(num[j]-k)
+        if mus<500:
+            flag=0
+    if flag:
+        answer+=1
+
+print(answer)
+
+----------------------------
+비 백트래킹 같은 풀이
+
+        
