@@ -10,7 +10,7 @@ def judge(num):
     return True
 
 
-def recursive(num):
+def recursive(num, lst):
     global res
     if num == N:
         res += 1
@@ -18,8 +18,9 @@ def recursive(num):
         for i in range(N):
             row[num] = i
             if judge(num):
-                recursive(num+1)
+                recursive(num+1, lst)
 
 
-recursive(0)
+lst = [x for x in range(N)]
+recursive(0, lst)
 print(res)
