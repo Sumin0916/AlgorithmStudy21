@@ -1,0 +1,16 @@
+N=int(input())
+
+dict={}
+
+for _ in range(N):
+    file=input().split('.')
+    if file[1] not in dict:
+        dict[file[1]]=1
+    else:
+        dict[file[1]]+=1
+
+result=list(dict)
+result.sort()
+
+for r in result:
+    print(r,dict[r],end='\n')
