@@ -1,0 +1,17 @@
+N=int(input())
+
+graph=[[-1] for _ in range(N+1)]
+
+for _ in range(N):
+    a,b=map(int,input().split())
+    if len(graph[a])==0:
+        graph[a].append(b)
+    if graph[a][-1]!=b:
+        graph[a].append(b)
+
+answer=0
+
+for j in graph:
+    if len(j)>=3:
+        answer+=len(j)-2
+print(answer)
