@@ -1,0 +1,42 @@
+n=int(input())
+
+board=[]
+graph=[]
+for _ in range(n):
+    board.append(list(input()))
+
+for _ in range(n):
+    graph.append(list(input()))
+
+def check(x,y):
+    if board[x][y]=='*':
+        graph[x][y]='*'
+        return -1
+    cnt=0
+    dx=[0,1,-1,0,-1,1,-1,1]
+    dy=[1,0,0,-1,-1,1,1,-1]
+    for i in range(8):
+        nx=x+dx[i]
+        ny=y+dy[i]
+        if 0<=nx<n and 0<=ny<n:
+            if board[nx][ny]=='*':
+                cnt+=1
+    return cnt
+    
+flag=False
+for i in range(n):
+    for j in range(n):
+        if graph[i][j]=='x':
+            num=check(i,j)
+            if num==-1:
+                flag=True
+            else:
+                graph[i][j]=str(num)
+if flag:
+    for a in range(n):
+        for b in range(n):
+            if board[a][b]=='*':
+                graph[a][b]='*'
+
+for j in graph:
+    print(''.join(j))
