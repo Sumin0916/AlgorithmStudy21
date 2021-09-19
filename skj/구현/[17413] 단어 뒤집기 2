@@ -1,0 +1,33 @@
+word=input()
+
+flag=False
+
+answer=''
+temp=''
+
+for i in range(len(word)):
+    if word[i]=='<':
+        flag=True
+    elif word[i]=='>':
+        flag=False
+        temp+=word[i]
+        answer+=temp
+        temp=''
+        continue
+    
+    if flag:
+        temp+=word[i]
+    else:
+        if word[i]==' ':
+            continue
+        temp+=word[i]
+        if i==len(word)-1:
+            break
+        if word[i+1]=='<':
+            answer+=temp[::-1]
+            temp=''
+        elif word[i+1]==' ':
+            answer+=temp[::-1]+' '
+            temp=''
+answer+=temp[::-1]
+print(answer)
