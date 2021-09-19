@@ -1,0 +1,29 @@
+n = int(input())
+num = int(input())
+board = [[0]*n for _ in range(n)]
+
+dx = [1,0,-1,0]
+dy = [0,1,0,-1]
+result = [0,0]
+
+y,x,dirs,cnt = 0,0,0,n*n
+
+while True:
+    board[x][y] = cnt
+    if board[x][y] == num:
+        result = [x+1,y+1]
+
+    if y == n //2 and x == n//2:
+        break
+
+    nx,ny = x + dx[dirs], y + dy[dirs]
+
+    if ny < 0 or ny >=n or nx < 0 or nx >=n or board[nx][ny] != 0:
+        dirs = (dirs + 1) % 4
+        nx,ny = x + dx[dirs], y + dy[dirs]
+    cnt -= 1
+    x,y = nx,ny
+
+for l in board:
+    print(*l)
+print(*result)
