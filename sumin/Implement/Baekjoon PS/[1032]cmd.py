@@ -1,14 +1,15 @@
-N = int(input())
+import sys
 
-res = input()
-string_len = len(res[0])
+input = sys.stdin.readline
 
-for _ in range(N-1):
-    new_string = input()
-    new_res = ""
-    print(res, new_string)
-    for i in range(string_len):
-        if res[i] == new_string[i]:
-            new_res += new_string[i]
-        res = new_res
-print(res)
+N = int(input()) - 1
+string = list(input())
+l_string = len(string)
+
+for _ in range(N):
+    nstring = list(input())
+    for i in range(l_string):
+        if string[i] != "?" and nstring[i] != string[i]:
+            string[i] = "?"
+
+print("".join(string), end="")
