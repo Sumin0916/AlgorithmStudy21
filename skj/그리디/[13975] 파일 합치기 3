@@ -1,0 +1,18 @@
+import sys,heapq
+input=sys.stdin.readline
+t=int(input())
+
+for _ in range(t):
+    n=int(input())
+    num=list(map(int,input().split()))
+    heapq.heapify(num)
+    answer=0
+    while len(num)>1:
+        for _ in range(len(num)//2):
+            a=heapq.heappop(num)
+            b=heapq.heappop(num)
+            heapq.heappush(num,a+b)
+            answer+=(a+b)
+            if len(num)==1:
+                print(answer)
+                break
