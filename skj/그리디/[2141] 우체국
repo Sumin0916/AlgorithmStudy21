@@ -1,0 +1,21 @@
+n=int(input())
+
+pos=[]
+total=0
+for _ in range(n):
+    a,b=map(int,input().split())
+    pos.append((a,b))
+    total+=b
+
+pos=sorted(pos)
+
+mid=total//2
+if (total%2)==1:
+    mid+=1
+
+answer=0
+for x,y in pos:
+    answer+=y
+    if answer>=mid:
+        print(x)
+        break
