@@ -1,0 +1,19 @@
+import sys
+n=int(input())
+k=int(input())
+sen=list(map(int,input().split()))
+
+sen=sorted(sen)
+if k>=n:
+    print(0)
+    sys.exit(0)
+
+dist=[]
+for i in range(n-1):
+    dist.append(sen[i+1]-sen[i])
+
+dist.sort(reverse=True)
+for _ in range(k-1):
+    dist.pop(0)
+
+print(sum(dist))
