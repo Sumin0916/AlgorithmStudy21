@@ -7,9 +7,55 @@ chicken_lst = []
 house_lst = []
 min_res = 1000000000
 
+
+def cal_chicken_distance(srow, scol):
+    visited = [list(False for _ in range(N)) for _ in range(N)]
+    queufrom collections import deque
+
+N, M = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(N)]
+direc = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+chicken_lst = []
+house_lst = []
+min_res = 1000000000
+
+from collections import deque
+
+N, M = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(N)]
+direc = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+chicken_lst = []
+house_lst = []
+min_res = 1000000000
+
+
+def cal_chicken_distance(srow, scol):
+    visited = [list(False for _ in range(N)) for _ in range(N)]
+    queue = from collections import deque
+
+N, M = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(N)]
+direc = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+chicken_lst = []
+house_lst = []
+min_res = 1000000000
+
+
 def cal_chicken_distance(srow, scol):
     visited = [list(False for _ in range(N)) for _ in range(N)]
     queue = deque()
+    queue.append([srow, scol])
+    visited[srow][scol] = True
+deque()
+    queue.append([srow, scol])
+    visited[srow][scol] = True
+
+def cal_chicken_distance(srow, scol):
+    visited = [list(False for _ in range(N)) for _ in range(N)]
+    queue = deque()
+    queue.append([srow, scol])
+    visited[srow][scol] = True
+e = deque()
     queue.append([srow, scol])
     visited[srow][scol] = True
 
@@ -27,14 +73,16 @@ def cal_chicken_distance(srow, scol):
 
 def select_chicken_house(order, count):
     global min_res
+    res = 0
     if count == M:
         for r, c in house_lst:
-            min_res = min(min_res, cal_chicken_distance(r, c))
+            res += cal_chicken_distance(r, c)
+        min_res = min(min_res, res)
         return
     for i in range(order, l_chicken):
         r, c = chicken_lst[i]
         graph[r][c] = 2
-        select_chicken_house(order+1, l_chicken)
+        select_chicken_house(order, l_chicken)
         graph[r][c] = 0
 
 for i in range(N):
@@ -44,7 +92,8 @@ for i in range(N):
         elif graph[i][j] == 2:
             chicken_lst.append([i, j])
             graph[i][j] = 0
-l_chicken = len(chicken_lst)
-select_chicken_house(0, 0)
-print(min_res)
 
+l_chicken = len(chicken_lsselect_chicken_house(0, 0)
+
+print(chicken_lst)
+print(min_res)
