@@ -13,12 +13,12 @@ def find_LIS(lst):
         mem[i] = pre_mem + 1
     return mem
 
+
 f_res = find_LIS(lst)
 s_res = find_LIS(lst[::-1])
 
 max_res = 0
-
-for i in range(1, N):
-    max_res = max(max_res, max(f_res[:i])+max(s_res[:i]))
+for i in range(N):
+    max_res = max(max_res, f_res[i]+s_res[N-i-1]-1)
 
 print(max_res)
