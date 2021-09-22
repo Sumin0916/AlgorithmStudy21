@@ -1,0 +1,18 @@
+n=int(input())
+
+graph=[]
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+check=[0 for _ in range(n)] 
+def dfs(x):
+    for i in range(n):
+        if graph[x][i]==1 and check[i]==0:
+            check[i]=1
+            dfs(i)
+
+for j in range(n):
+    check=[0]*n
+    dfs(j)
+    print(*check)
+    
