@@ -26,16 +26,35 @@ def one_time_spread(queue):
     return new_queue
 
 
-def air_purifier(row1, row2):
-    queue = deque()
-    queue.extend(room[row1][1:C-1])
-    for i in range(row1, -1, -1):
-        queue.append(room[i][C-1])
-    queue.extend(room[0][C-2:0:-1])
-    for i in range(row1):
-        queue.append(room[0][i])
-    print(queue)
+def clockwise_direc(row, col):
+    if room[row][col] == -1:
+        print(row, col)
+        return
+    print(row, col)
+    if col == 0 and row > 0:
+        room[row][col] = room[row-1][col]
+        clockwise_direc(row-1, col)
+    if row == 0 and col < C-1:
+        room[row][col] = room[row][col+1]
+        clockwise_direc(row, col+1)
+    if col == C-1 and row < air_row[0]:
+        room[row][col] = room[row+1][col]
+        clockwise_direc(row+1, col)
+    if row == air_row[0] and col > 0:
+        room[row][col] = room[row][col-1]
+        clockwise_direc(row, col-1)
 
 
-air_purifier(2, 3)
+air_row = []
+
+for i in range(R):
+    if room[i][0] == -1:
+        air_row.append(i)
+    if len(air_row) == 2:
+        break
+
+clockwise_direc(air_row[0]-1, 0)
+room[air_row[0]][1] = 0
+for i in room:
+    print(i)
 
