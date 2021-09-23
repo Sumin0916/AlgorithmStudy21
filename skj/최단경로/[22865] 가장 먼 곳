@@ -1,0 +1,42 @@
+import heapq,sys
+input=sys.stdin.readline
+INF=int(1e9)
+n=int(input())
+A,B,C=map(int,input().split()) #친구들이 사는 집 위치 
+m=int(input())
+
+graph=[[] for _ in range(n+1)]
+
+for _ in range(m):
+    start,end,dist=map(int,input().split())
+    graph[start].append((dist,end))
+    graph[end].append((dist,start))
+
+
+def dijkstra(start):
+    q=[]
+    distance=[INF]*(n+1)
+    heapq.heappush(q,(0,start))
+    distance[start]=0
+    while q:
+        dist,node=heapq.heappop(q)
+        for i in graph[node]:
+            cost=dist+i[0]
+            if cost<distance[i[1]]:
+                distance[i[1]]=cost
+                heapq.heappush(q,(cost,i[1]))
+    return distance
+
+answer=0
+idx=0
+d1=dijkstra(A)
+d2=dijkstra(B)
+d3=dijkstra(C)
+
+result=[min(x,y,z) for x,y,z in zip(d1,d2,d3)]
+result[0]=0
+print(result.index(max(result)))
+
+
+
+전부 다돌리고 비교를 하니 시간초과가 발생 (A,B,C)에 관한 것만 돌리니 시간 초과 
