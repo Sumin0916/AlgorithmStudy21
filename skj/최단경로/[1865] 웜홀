@@ -1,0 +1,36 @@
+import sys
+from types import new_class
+input=sys.stdin.readline
+INF=int(1e9)
+t=int(input())
+
+for _ in range(t):
+    n,m,w=map(int,input().split())
+    graph=[]   
+
+    for _ in range(m):
+        start,end,dist=map(int,input().split())
+        graph.append((start,end,dist))
+        graph.append((end,start,dist))
+    for _ in range(w):
+        start,end,dist=map(int,input().split())
+        graph.append((start,end,-dist))
+
+    distance=[INF]*(n+1) 
+    distance[1]=0
+    
+    for _ in range(n-1):
+        for now,next,dist in graph:
+            if distance[next]>dist+distance[now]:
+                distance[next]=dist+distance[now]
+
+    flag=False
+    for now,next,dist in graph:
+        if distance[next]>dist+distance[now]:
+            flag=True
+            break
+
+    if flag:
+        print("YES")
+    else:
+        print("NO")
