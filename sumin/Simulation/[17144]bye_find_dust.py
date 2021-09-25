@@ -1,37 +1,31 @@
 import sys
-from collections import deque
 
 input = sys.stdin.readline
-sys.setrecursionlimit(1000000)
 R, C, T = map(int, input().split())
 room = [list(map(int, input().split())) for _ in range(R)]
 direc = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-queue = deque()
 
 
-def one_time_spread(queue):
-    new_queue = deque()
-    adder_lst = []
-    subs_lst = []
-    while queue:
-        row, col = queue.popleft()
-        new_queue.append([row, col])
-        count = 0
-        for r, c in direc:
-            nr = r + row
-            nc = c + col
-            if 0 <= nr < R and 0 <= nc < C:
-                if room[nr][nc] != -1:
-                    count += 1
-                    new_queue.append([nr, nc])
-                    adder_lst.append([nr, nc, int(room[row][col]/5)])
-        if count >= 1:
-            subs_lst.append([row, col, (int(room[row][col]/5)) * count])
-    for r, c, a in adder_lst:
+def one_time_spread():
+    add_lst = []
+    sub_lst = []
+    for i in range(R):
+        for j in range(C):
+            count = 0
+            if room[i][j] > 0:
+                for r, c in direc:
+                    nr = i + r
+                    nc = j + c
+                    if 0 <= nr < R and 0 <= nc < C:
+                        if room[nr][nc] != -1:
+                            count += 1
+                            add_lst.append([nr, nc, room[i][j]//5])
+                sub_lst.append([i, j, (room[i][j]//5) * count])
+    for r, c, a in add_lst:
         room[r][c] += a
-    for r, c, s in subs_lst:
+    for r, c, s in sub_lst:
         room[r][c] -= s
-    return new_queue
+    return
 
 
 def clockwise_direc(row, col):
@@ -69,20 +63,13 @@ def reverse_clockwise(row, col):
 
 
 air_row = []
-
 for i in range(R):
-    for j in range(C):
-        if room[i][j] > 0:
-            queue.append([i, j])
-        elif room[i][j] == -1:
-            air_row.append(i)
+    if room[i][0] == -1:
+        air_row.append(i)
 
 
 for _ in range(T):
-    for i in room:
-        print(i)
-    print()
-    queue = one_time_spread(queue)
+    one_time_spread()
     clockwise_direc(air_row[0]-1, 0)
     room[air_row[0]][1] = 0
     reverse_clockwise(air_row[1]+1, 0)
@@ -91,5 +78,4 @@ for _ in range(T):
 room[air_row[0]][0] = 0
 room[air_row[1]][0] = 0
 print(sum(list(map(sum, room))))
-
 
