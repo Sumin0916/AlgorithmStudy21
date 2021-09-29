@@ -71,3 +71,51 @@ while True:
     save=total
     
 #16%에서 틀림 발생
+
+
+from collections import deque
+
+n,m=map(int,input().split())
+
+graph=[]
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+dx=[0,0,1,-1]
+dy=[-1,1,0,0]
+
+def bfs():
+    q=deque()
+    q.append((0,0))
+    check=[[False]*m for _ in range(n)]
+    cnt=0
+    while q:
+        x,y=q.popleft()
+        check[x][y]=True
+        for i in range(4):
+            nx=x+dx[i]
+            ny=y+dy[i]
+            if nx>=n or ny>=m or nx<0 or ny<0:
+                continue
+            if graph[nx][ny]==0 and check[nx][ny]==False:
+                check[nx][ny]=True
+                q.append((nx,ny))
+            elif graph[nx][ny]==1 and check[nx][ny]==False:
+                graph[nx][ny]=0
+                check[nx][ny]=True
+                cnt+=1
+    return cnt
+
+time=0
+save=0
+while True:
+    num=bfs()
+    if num==0:
+        print(time)
+        print(save)
+        break
+    time+=1
+    save=num
+
+
+#해결 꽤나 고전했다..
