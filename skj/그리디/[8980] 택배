@@ -1,0 +1,20 @@
+n,c=map(int,input().split())  #마을 수, 트럭 용량 
+m=int(input())
+
+graph=[]
+answer=0
+box=[c]*(n+1)
+for _ in range(m):
+    graph.append(list(map(int,input().split())))
+graph.sort(key=lambda x:x[1])
+
+
+for i in range(m):
+    temp=c
+    for j in range(graph[i][0],graph[i][1]):
+        temp=min(temp,box[j])
+    temp=min(temp,graph[i][2])
+    for j in range(graph[i][0],graph[i][1]):
+        box[j]-=temp
+    answer+=temp
+print(answer)
