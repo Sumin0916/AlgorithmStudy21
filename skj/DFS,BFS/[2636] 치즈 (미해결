@@ -1,0 +1,73 @@
+from collections import deque
+import copy
+
+n,m=map(int,input().split())
+
+graph=list()
+
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+total=0
+for i in range(n):
+    for j in range(m):
+        if graph[i][j]==1:
+            total+=1
+
+dx=[0,-1,0,1]
+dy=[1,0,-1,0]
+
+def outside():
+    q=deque()
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j]==0:
+                q.append((i,j))
+                graph[i][j]=-1
+                break
+    while q:
+        x,y=q.popleft()
+        for i in range(4):
+            nx=x+dx[i]
+            ny=y+dy[i]
+            if 0<=nx<n and 0<=ny<m and graph[nx][ny]==0:
+                graph[nx][ny]=-1
+                q.append((nx,ny))
+    return graph
+
+def bfs():
+    global total
+    temp=copy.deepcopy(graph)
+    check=[[False]*m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j]==1:
+                flag=False
+                for d in range(4):
+                    nx=i+dx[d]
+                    ny=j+dy[d]
+                    if nx>=n or ny>=m or nx<0 or ny<0:
+                        continue
+                    if graph[nx][ny]==-1 and check[nx][ny]==False:
+                        flag=True
+                        break
+                if flag:
+                    graph[i][j]=-1
+                    check[i][j]=True
+                    total-=1
+
+time=0
+save=0
+
+while True:
+    outside()
+    bfs()
+    time+=1
+    print(graph)
+    if total==0:
+        print(time)
+        print(save)
+        break
+    save=total
+    
+#16%에서 틀림 발생
