@@ -1,0 +1,25 @@
+from collections import deque
+import sys
+input=sys.stdin.readline
+n=int(input())
+num=deque(list(map(int,input().split())))
+
+answer=[]
+check=[]
+
+while num:
+    a=num.popleft()
+    flag=True
+    if len(check)==0:
+        answer.append(0)
+        check.append(a)
+        continue
+    for c in range(-1,-len(check),-1):
+        if check[c]>a:
+            answer.append(len(check)+c+1)
+            flag=False
+            break
+    if flag:
+        answer.append(0)
+    check.append(a)
+print(*answer)
