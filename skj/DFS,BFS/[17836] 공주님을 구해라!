@@ -1,0 +1,90 @@
+from collections import deque
+import sys
+input=sys.stdin.readline
+n,m,t=map(int,input().split())
+
+graph=[]
+
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+q=deque()
+q.append((0,0,0,0))
+
+dx=[0,0,-1,1]
+dy=[-1,1,0,0]
+
+flag=False
+answer=[]
+visited=[[False]*m for _ in range(n)]
+while q:
+    x,y,time,gram=q.popleft()
+    visited[x][y]=True
+    if x==n-1 and y==m-1 and time<=t:
+        flag=True
+        print(time)
+        break
+    for i in range(4):
+        nx=x+dx[i]
+        ny=y+dy[i]
+        if 0<=nx<n and 0<=ny<m:
+            if gram==0 and graph[nx][ny]==0 and visited[nx][ny]==False:
+                q.append((nx,ny,time+1,0))
+            elif gram==0 and graph[nx][ny]==2 and visited[nx][ny]==False:
+                q.append((nx,ny,time+1,1))
+            if gram==1 and visited[nx][ny]==False:
+                q.append((nx,ny,time+1,1))
+
+if not flag:
+    print("Fail")
+  
+#시간초과 발생함..
+
+
+from collections import deque
+import sys
+input=sys.stdin.readline
+n,m,t=map(int,input().split())
+
+graph=[]
+
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+q=deque()
+q.append((0,0,0))
+
+dx=[0,0,-1,1]
+dy=[-1,1,0,0]
+
+flag=False
+answer=[]
+visited=[[False]*m for _ in range(n)]
+result=1e9
+
+while q:
+    x,y,time=q.popleft()
+    if x==n-1 and y==m-1 and time<t:
+        result=min(result,time)
+        break
+    if time>=t:
+        break
+    for i in range(4):
+        nx=x+dx[i]
+        ny=y+dy[i]
+        if 0<=nx<n and 0<=ny<m and visited[nx][ny]==False:
+            if graph[nx][ny]==1:
+                continue
+            elif graph[nx][ny]==0:
+                visited[nx][ny]=True
+                q.append((nx,ny,time+1))
+            elif graph[nx][ny]==2:
+                visited[nx][ny]==True
+                result=min(result,time+1+(abs(n-1-nx)+abs(m-1-ny)))
+
+if result>t:
+    print("Fail")
+else:
+    print(result)
+    
+  #전부 다 탐색할 것이 아니라 검을 구하면 거리를 구할 수 있음!!
