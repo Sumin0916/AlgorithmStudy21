@@ -1,0 +1,25 @@
+from collections import deque
+n=int(input())
+
+answer=[]
+
+check=deque()
+num=list(map(int,input().split()))
+
+for i in range(1,n+1):
+    check.append(i)
+
+while check:
+    number=check.popleft()
+    answer.append(number)
+    if len(check)==0:
+        print(*answer)
+        break
+    if num[number-1]>0:
+        for _ in range(num[number-1]-1):
+            a=check.popleft()
+            check.append(a)
+    else:
+        for _ in range(abs(num[number-1])):
+            b=check.pop()
+            check.appendleft(b)
