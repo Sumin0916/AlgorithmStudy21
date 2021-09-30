@@ -25,3 +25,23 @@ while num:
 print(*answer)
 
 #시간초과 
+
+
+import sys
+input=sys.stdin.readline
+n=int(input())
+num=list(map(int,input().split()))
+
+answer=[0]*n
+check=[]
+
+for i in range(n):
+    number=num[i]
+    while check and num[check[-1]]<number:
+        check.pop()
+    if check:
+        answer[i]=check[-1]+1
+    check.append(i)
+
+print(*answer)
+
