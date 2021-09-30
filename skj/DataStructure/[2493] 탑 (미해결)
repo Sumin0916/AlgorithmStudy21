@@ -23,3 +23,5 @@ while num:
         answer.append(0)
     check.append(a)
 print(*answer)
+
+#시간초과 
