@@ -66,3 +66,7 @@ while True:
         if ate>=now_size:
             now_size+=1
             ate=0
+            
+  
+  
+  #find함수 만드는게 떠오르지 않았다... 하... 다시 한번 
