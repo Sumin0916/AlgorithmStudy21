@@ -5,8 +5,9 @@ import sys
 def kruskal(edge):
     weight = 0
     for i in range(E):
-        if uf.find_parent(parent, edge[i][0]) != uf.find_parent(parent, edge[i][1]):
-            uf.union_parent(parent, edge[i][0], edge[i][1])
+        a, b = edge[i][0], edge[i][1]
+        if uf.find_parent(parent, a) != uf.find_parent(parent, b):
+            uf.union_parent(parent, a, b)
             weight += edge[i][2]
     return weight
 
