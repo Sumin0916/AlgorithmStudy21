@@ -1,0 +1,15 @@
+word=input()
+result=['']*len(word)
+
+
+def dfs(word,start):
+    if not word:
+        return 
+    min_word=min(word)
+    idx=word.index(min_word)
+    result[start+idx]=min_word
+    print(''.join(result))
+    dfs(word[idx+1:],start+idx+1)
+    dfs(word[:idx],start)
+
+dfs(word,0)
