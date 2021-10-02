@@ -1,0 +1,21 @@
+import sys
+while True:
+    n=int(input())
+    if n==0:
+        sys.exit(0)
+    answer=0
+    def number(n):
+        check=[0]*(2*n+1)
+        result=list()
+        for i in range(2,2*n+1):
+            if check[i]==0:
+                result.append(i)
+                for j in range(i,2*n+1,i):
+                    check[j]=1
+        return result
+    
+    temp=number(n)
+    for t in temp:
+        if n<t<=2*n:
+            answer+=1
+    print(answer)
