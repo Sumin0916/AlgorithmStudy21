@@ -12,20 +12,19 @@ def cal_lst(lst):
     return res
 
 
-def recursive(cnt):
+def backtracking(cnt):
     global max_res
     if cnt == N:
-        print(temp_lst)
         max_res = max(max_res, cal_lst(temp_lst))
         return
     for i in range(N):
         if not visited[i]:
             temp_lst.append(lst[i])
             visited[i] = True
-            recursive(cnt+1)
+            backtracking(cnt+1)
             temp_lst.pop()
             visited[i] = False
 
 
-recursive(0)
+backtracking(0)
 print(max_res)
