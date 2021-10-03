@@ -28,9 +28,9 @@ def can_move(bead_point, visited):
                 nbc = bc
             if graph[nbr][nbc] == "O":
                 continue
-        if nrr != nbr and nrc != nbc:
+        if not (nrr == nbr and nrc == nbc):
             if not visited[nrr][nrc]:
-                new_point.append([nrr, nrc, nbr, nbc])
+                new_point.append([[nrr, nrc], [nbr, nbc]])
                 visited[nrr][nrc] = True
     return new_point
 
@@ -46,7 +46,7 @@ def bfs_search(start_info):
         count += 1
         if count > 10:
             return -1
-        temp_queue = []
+        temp_queue = deque()
         while queue:
             bead_info = queue.popleft()
             lst = can_move(bead_info, visited)
