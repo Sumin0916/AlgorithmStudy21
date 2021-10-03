@@ -1,0 +1,65 @@
+import heapq,sys
+input=sys.stdin.readline
+
+n,k=map(int,input().split())
+
+jew=[]
+bag=[]
+
+for _ in range(n):
+
+    a,b=map(int,input().split())
+    heapq.heappush(jew,(-b,a))
+
+for _ in range(k):
+    heapq.heappush(bag,int(input()))
+
+result=0
+
+while bag:
+    weight=heapq.heappop(bag)
+    while True:
+        x,y=heapq.heappop(jew)
+        if y<weight:
+            result+=-x
+            heapq.heapify(jew)
+            break
+        else:
+            jew.append((-b,a))
+print(result)
+
+#시간초과가 발생
+
+
+
+import heapq,sys
+input=sys.stdin.readline
+
+n,k=map(int,input().split())
+
+jew=[]
+bag=[]
+for _ in range(n):
+    a,b=map(int,input().split())
+    heapq.heappush(jew,(a,b))
+
+for _ in range(k):
+    heapq.heappush(bag,int(input()))
+
+result=0
+temp=[]
+
+while bag:
+    weight=heapq.heappop(bag)
+    while jew and weight>=jew[0][0]:
+        heapq.heappush(temp,-jew[0][1])
+        heapq.heappop(jew)
+    if temp:
+        x=heapq.heappop(temp)
+        result+=abs(x)
+    elif not jew:
+        break
+
+print(result)
+
+#예전에 힙을 두개 할당해서 푸는 것이 생각남 어차피 무게 정렬하면 다음 무게에는 자연스레 따라 들어가니..
