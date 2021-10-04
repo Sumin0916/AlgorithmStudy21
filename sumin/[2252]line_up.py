@@ -1,15 +1,28 @@
 import sys
+from collections import deque
 
 input = sys.stdin.readline
-line = []
-dic = {}
+
 N, M = map(int, input().split())
+graph = [list() for _ in range(N+1)]
+num_edge = [0 for _ in range(N+1)]
+num_edge[0] = -1
 
 for _ in range(M):
     a, b = map(int, input().split())
-    if a in dic:
-        
-    elif b in dic:
-    else:
-        dic[a] = N
-        dic[b] = N
+    graph[a].append(b)
+    num_edge[a] += 1
+print(num_edge)
+queue = deque()
+for i in range(1, N+1):
+    if num_edge[i]:
+        queue.append(i)
+print(queue)
+while queue:
+    node = queue.popleft()
+    print(node)
+    for i in graph[node]:
+        num_edge[i] -= 1
+        if num_edge[i] == 0:
+            queue.append(i)
+print(num_edge)
