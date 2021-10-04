@@ -11,18 +11,17 @@ num_edge[0] = -1
 for _ in range(M):
     a, b = map(int, input().split())
     graph[a].append(b)
-    num_edge[a] += 1
-print(num_edge)
+    num_edge[b] += 1
 queue = deque()
 for i in range(1, N+1):
-    if num_edge[i]:
+    if num_edge[i] == 0:
         queue.append(i)
-print(queue)
+res = []
 while queue:
     node = queue.popleft()
-    print(node)
+    res.append(node)
     for i in graph[node]:
         num_edge[i] -= 1
         if num_edge[i] == 0:
             queue.append(i)
-print(num_edge)
+print(*res)
