@@ -136,3 +136,65 @@ print(answer)
 
 
 #시간초과는 해결,,30%에서 틀림 
+
+from itertools import combinations
+import copy
+import sys
+input=sys.stdin.readline
+n,m,d=map(int,input().split()) #d는 궁수가 쏠 수 있는 거리! 
+
+board=[]
+
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+#궁수가 배치 될 수 있는 경우의 수 
+temp=[(n,i) for i in range(m)]
+bow=list(combinations(temp,3))
+
+#막아낸 것 구현 
+def check(x,y,d,graph):
+    temp=[]
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j]==1 and abs(x-i)+abs(y-j)<=d:
+                temp.append((abs(x-i)+abs(y-j),j,i))
+    temp=sorted(temp,key=lambda x:(x[0],x[1]))
+    if len(temp)==0:
+        return 0,-1,-1
+    else:
+        return 1,temp[0][1],temp[0][2]
+
+#이동 구현
+def move(graph):
+    temp=copy.deepcopy(graph)
+    for i in range(n-2,-1,-1):
+        for j in range(m):
+            temp[i+1][j]=graph[i][j]
+            if i==0:
+                temp[i][j]=0
+    return temp
+
+answer=0
+while bow:
+    b=bow.pop()
+    graph=copy.deepcopy(board)
+    number=0
+    for _ in range(n):
+        kill=[]
+        for x,y in b:
+            cnt,p1,p2=check(x,y,d,graph)
+            if cnt==1:
+                kill.append((p2,p1))
+        kill=list(set(kill))
+        number+=len(kill)
+        for x,y in kill:
+            graph[x][y]=0
+        graph=move(graph)
+    answer=max(answer,number)
+
+print(answer)
+
+
+#와 진심.....  152번째 라인 for문 안에 변수 n을 m으로 안바꿔서 2시간을 삽질함... 이런 사소한 실수도 줄이자.. 변수를 잘 만들자!!
+#이게 시뮬레이션의 매력이다
