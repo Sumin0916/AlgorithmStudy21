@@ -6,10 +6,9 @@ N = int(input())
 star_dict = {}
 for i in range(1, N+1):
     star_dict[i] = list(map(float, input().split()))
-print(star_dict)
 edge = []
 lst = []
-parent = [x for x in range(1 ,N+1)]
+parent = [x for x in range(N+1)]
 
 
 def find_parent(parent, x):
@@ -38,7 +37,6 @@ def kruskal(edge):
 
 def combi(ind, cnt):
     if cnt == 2:
-        print(lst)
         if lst[0] != lst[1]:
             s1 = star_dict[lst[0]]
             s2 = star_dict[lst[1]]
@@ -53,4 +51,5 @@ def combi(ind, cnt):
 
 combi(1, 0)
 E = len(edge)
-print(kruskal(edge))
+edge.sort(key=lambda x: x[2])
+print("{:.2f}".format(kruskal(edge)))
