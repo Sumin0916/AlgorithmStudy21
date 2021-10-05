@@ -1,0 +1,70 @@
+from itertools import permutations
+import copy
+import sys
+input=sys.stdin.readline
+n,m,d=map(int,input().split()) #d는 궁수가 쏠 수 있는 거리! 
+
+board=[]
+
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+#궁수 포지션 선정 
+temp=[0 for _ in range(n-3)]
+for _ in range(3):
+    temp.append(2)
+#궁수가 배치 될 수 있는 경우의 수 
+bow=list(set(permutations(temp,m)))
+
+#막아낸 것 구현 
+def check(x,y,d,graph):
+    for i in range(n-1,-1,-1):
+        for j in range(m):
+            if graph[i][j]==1 and abs(x-i)+abs(y-j)<=d:
+                graph[i][j]=0
+                return graph,1
+    return graph,0
+
+#이동 구현
+def move(graph):
+    temp=copy.deepcopy(graph)
+    for i in range(n-2,-1,-1):
+        for j in range(m):
+            temp[i+1][j]=graph[i][j]
+            if i==0:
+                temp[i][j]=0
+    return temp
+
+def sum_num(graph):
+    num=0
+    for i in graph:
+        num+=sum(i)
+    if num==0:
+        return False
+    else:
+        return True
+
+
+answer=0
+while bow:
+    b=bow.pop(0)
+    graph=copy.deepcopy(board)
+    turn=0
+    number=0
+    if sum_num(graph)==False:
+        break
+    while turn<n:
+        for i in range(m):
+            if b[i]==2:
+                graph,a=check(n,i,d,graph)
+                number+=a
+        graph=move(graph)
+        if number>answer:
+            answer=number
+        if sum_num(graph)==False:
+            break
+        turn+=1
+
+print(answer)
+
+#테케는 다 통과했는데 시간초과 발생... 뭐가 문제니
