@@ -63,50 +63,56 @@ print(len(tree))
 
 #시간초과 발생...
 
+import heapq,sys
 from collections import deque
-import sys
-input = sys.stdin.readline
-def spring():
+input=sys.stdin.readline
+n,m,z=map(int,input().split())   #k는 연도 
+
+land=[[5]*(n) for _ in range(n)] #토지 
+
+board=[] # 양분 
+
+tree=[[deque() for _ in range(n)] for _ in range(n)]
+
+dx=[-1,-1,-1,0,0,1,1,1]
+dy=[-1,0,1,-1,1,-1,0,1]
+
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+for _ in range(m):
+    x,y,year=map(int,input().split())
+    tree[x-1][y-1].append(year)
+
+answer=0
+for _ in range(z):
+
     for i in range(n):
         for j in range(n):
-            len_t = len(t[i][j])
-            for k in range(len_t):
-                if t[i][j][k] <= no[i][j]:
-                    no[i][j] -= t[i][j][k]
-                    t[i][j][k] += 1
+            for k in range(len(tree[i][j])):
+                if tree[i][j][k]<=land[i][j]:
+                    land[i][j]-=tree[i][j][k]
+                    tree[i][j][k]+=1
                 else:
-                    for _ in range(k, len_t):
-                        no[i][j] += t[i][j].pop() // 2
+                    for _ in range(k,len(tree[i][j])):
+                        land[i][j]+=tree[i][j].pop()//2
                     break
-def fall():
+                
     for i in range(n):
         for j in range(n):
-            for k in t[i][j]:
-                if k % 5 == 0:
-                    for l in range(8):
-                        x = i + dx[l]
-                        y = j + dy[l]
-                        if 0 <= x < n and 0 <= y < n:
-                            t[x][y].appendleft(1)
-            no[i][j] += s[i][j]
-dx = [1, -1, 0, 0, 1, -1, 1, -1]
-dy = [0, 0, -1, 1, 1, -1, -1, 1]
-n, m, k = map(int, input().split())
-s = []
-t = [[deque() for i in range(n)] for i in range(n)]
-no = [[5] * n for i in range(n)]
-for i in range(n):
-    s.append(list(map(int, input().split())))
-for i in range(m):
-    x, y, z = map(int, input().split())
-    t[x - 1][y - 1].append(z)
-for i in range(k):
-    spring()
-    fall()
-cnt = 0
+            for year in tree[i][j]:
+                if year%5==0:
+                    for d in range(8):
+                        nx=i+dx[d]
+                        ny=j+dy[d]
+                        if 0<=nx<n and 0<=ny<n:
+                            tree[nx][ny].appendleft(1)
+            land[i][j]+=board[i][j]
+    
 for i in range(n):
     for j in range(n):
-        cnt += len(t[i][j])
-print(cnt)
+        answer+=len(tree[i][j])
+print(answer)
+
 
 #해결책은 deque였다
