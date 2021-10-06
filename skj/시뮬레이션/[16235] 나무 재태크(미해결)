@@ -1,0 +1,64 @@
+import heapq,sys
+input=sys.stdin.readline
+n,m,k=map(int,input().split())   #k는 연도 
+
+land=[[5]*(n) for _ in range(n)] #토지 
+
+board=[] # 양분 
+tree=[]
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+for _ in range(m):
+    x,y,year=map(int,input().split())
+    tree.append((year,x,y))
+
+def spring(tree,land):
+    result=[]
+    kill_tree=[]
+    while tree:
+        year,x,y=heapq.heappop(tree)
+        if year>land[x-1][y-1]:
+            kill_tree.append((year,x,y))
+        elif year<=land[x-1][y-1]:
+            land[x-1][y-1]-=year
+            result.append((year+1,x,y))
+
+    return kill_tree,result
+
+def summer(kill_tree):
+    while kill_tree:
+        year,x,y=kill_tree.pop()
+        year=year//2
+        land[x-1][y-1]+=year
+    return land 
+
+def fall(tree):
+    dx=[-1,-1,-1,0,0,1,1,1]
+    dy=[-1,0,1,-1,1,-1,0,1]
+    for year,x,y in tree:
+        if year%5==0:
+            for i in range(8):
+                nx=x+dx[i]
+                ny=y+dy[i]
+                if 0<=nx-1<n and 0<=ny-1<n:
+                    tree.append((1,nx,ny))
+        else: 
+            continue
+    return tree
+
+def winter(land,board):
+    for i in range(n):
+        for j in range(n):
+            land[i][j]+=board[i][j]
+    return land
+
+for _ in range(k):
+    kill_tree,tree=spring(tree,land)
+    land=summer(kill_tree)
+    tree=fall(tree)
+    land=winter(land,board)
+
+print(len(tree))
+
+#시간초과 발생...
