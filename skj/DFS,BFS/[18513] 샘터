@@ -1,0 +1,28 @@
+from collections import deque
+n,k=map(int,input().split())
+
+water=list(map(int,input().split()))
+
+visited=set()
+
+q=deque()
+for w in water:
+    q.append((w,1))
+    visited.add(w)
+
+house=0
+answer=0
+while q:
+    x,num=q.popleft()
+    for i in [-1,1]:
+        nx=x+i
+        if nx in visited:
+            continue
+        visited.add(nx)
+        house+=1
+        answer+=num
+        q.append((nx,num+1))
+        if house==k:
+            q.clear()
+            break
+print(answer)
