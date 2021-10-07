@@ -1,0 +1,35 @@
+from collections import deque
+n=int(input())
+
+board=[]
+
+for _ in range(n):
+    board.append(list(map(int,input().split())))
+
+dp=[[0]*n for _ in range(n)]
+
+dp[0][0]=0
+q=deque()
+q.append((0,0))
+
+
+while q:
+    x,y=q.popleft()
+    if board[x][y]==0:
+        continue
+    for i in range(2):
+        if i==0:  #아래
+            nx=x+board[x][y]
+            if 0<=nx<n and 0<=y<n:
+                dp[nx][y]+=1
+                q.append((nx,y))
+        elif i==1:  #오른쪽
+            ny=y+board[x][y]
+            if 0<=x<n and 0<=ny<n:
+                dp[x][ny]+=1
+                q.append((x,ny))
+
+print(dp[n-1][n-1])
+
+
+#BFS로 풀었더니 메모리 초과
