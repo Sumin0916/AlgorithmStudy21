@@ -1,0 +1,28 @@
+from collections import deque
+
+board=[]
+
+for _ in range(8):
+    board.append(list(input()))
+
+dir=[(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1),(0,0)]
+
+def find():
+    q=deque()
+    q.append((7,0,8))
+    while q:
+        x,y,target=q.popleft()
+        for dx,dy in dir:
+            nx=x+dx
+            ny=y+dy
+            if 0<=nx<target and 0<=ny<8 and board[nx][ny]=='.':
+                if nx==0:
+                    return 1
+                nx-=1
+                if board[nx][ny]=='.':
+                    if nx==0:
+                        return 1
+                    q.append((nx,ny,target-1))
+    return 0
+
+print(find())
