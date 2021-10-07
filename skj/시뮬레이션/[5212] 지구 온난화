@@ -1,0 +1,48 @@
+import copy
+r,c=map(int,input().split())
+
+world=[]
+
+for _ in range(r):
+    world.append(list(input()))
+
+graph=copy.deepcopy(world)
+
+dir=[(0,1),(1,0),(0,-1),(-1,0)]
+
+for x in range(r):
+    for y in range(c):
+        sea_cnt=0
+        if world[x][y]=='X':
+            for a,b in dir:
+                nx=x+a
+                ny=y+b
+                if nx<0 or nx>=r or ny<0 or ny>=c:
+                    sea_cnt+=1
+                    continue
+                if world[nx][ny]=='.':
+                    sea_cnt+=1
+            if sea_cnt>=3:
+                graph[x][y]='.'
+
+up,down=0,0
+
+for i in range(r):
+    if 'X' in graph[i]:
+        up=i
+        break
+
+for j in range(r-1,-1,-1):
+    if 'X' in graph[j]:
+        down=j
+        break
+
+check=[]
+for i in range(c):
+    for j in range(up,down+1):
+        if graph[j][i]=='X':
+            check.append(i)
+            break
+
+for x in range(up,down+1):
+    print(''.join(graph[x][check[0]:check[-1]+1]))
