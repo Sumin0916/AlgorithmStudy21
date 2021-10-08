@@ -42,3 +42,53 @@ while q:
 print(answer)
 
 #6%에서 시간초과 발생 흠 벽부수고 이동하기랑 비슷한거 같기도하고..
+
+from collections import deque
+import sys
+input=sys.stdin.readline
+k=int(input()) #말의 움직임으로 이동 가능 횟수
+
+w,h=map(int,input().split())  #y,x
+
+board=[]
+
+for _ in range(h):
+    board.append(list(map(int,input().split())))
+
+visited=[[[0]*2 for _ in range(w)] for _ in range(h)]  #k사용 여부, 방문 
+
+horse=[(-2,-1),(-1,-2),(1,-2),(2,-1),(2,1),(1,2),(-1,2),(-2,1)]
+dir=[(0,1),(0,-1),(-1,0),(1,0)]
+
+q=deque()
+q.append((0,0,0))
+answer=-1
+visited[0][0][1]=1  #방문
+
+while q:
+    x,y,cnt=q.popleft()
+    visited[x][y][1]=1
+    if x==h-1 and y==w-1:
+        answer=cnt
+        break
+    if visited[x][y][0]<k:
+        for i,j in horse:
+            nx=x+i
+            ny=y+j
+            if nx<0 or nx>h-1 or ny<0 or ny>w-1:
+                continue
+            if board[nx][ny]==0 and visited[nx][ny][1]==0:
+                visited[nx][ny][0]=visited[x][y][0]+1
+                q.append((nx,ny,cnt+1))
+    elif visited[x][y][0]>=k:
+        for a,b in dir:
+            nx=x+a
+            ny=y+b
+            if nx<0 or nx>h-1 or ny<0 or ny>w-1:
+                continue
+            if board[nx][ny]==0 and visited[nx][ny][1]==0:
+                q.append((nx,ny,cnt+1))
+
+print(answer)
+
+#3차원 배열 사용해도 안됨...무슨 방법이 있지..
