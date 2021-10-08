@@ -1,0 +1,36 @@
+while True:
+    word=input()
+    stack=[]
+    flag=True
+    if word=='.':
+        break
+    for w in word:
+        if w=='(':
+            stack.append('(')
+        if w=='[':
+            stack.append('[')
+        if w==')':
+            if stack:
+                if stack[-1]=='(':
+                    stack.pop()
+                elif stack[-1]!='(':
+                    flag=False
+                    break
+            else:
+                flag=False
+                break
+        if w==']':
+            if stack:
+                if stack[-1]=='[':
+                    stack.pop()
+                elif stack[-1]!='[':
+                    flag=False
+                    break
+            else:
+                flag=False
+                break
+
+    if flag and not stack:
+        print('yes')
+    else:
+        print('no')
