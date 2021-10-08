@@ -22,7 +22,7 @@ while q:
     if x==h-1 and y==w-1:
         answer=cnt
         break
-    if flag==0:
+    if flag<k:
         for i,j in horse:
             nx=x+i
             ny=y+j
@@ -30,7 +30,7 @@ while q:
                 continue
             if check[nx][ny]==False and board[nx][ny]==0:
                 q.append((nx,ny,cnt+1,1))
-    elif flag==1:
+    elif flag>=k:
         for a,b in dir:
             nx=x+a
             ny=y+b
@@ -41,4 +41,4 @@ while q:
 
 print(answer)
 
-#6%틀림 발생 ..흠 벽부수고 이동하기랑 비슷한거 같기도하고..
+#6%에서 시간초과 발생 흠 벽부수고 이동하기랑 비슷한거 같기도하고..
