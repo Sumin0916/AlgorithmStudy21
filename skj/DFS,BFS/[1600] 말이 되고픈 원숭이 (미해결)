@@ -1,0 +1,44 @@
+from collections import deque
+k=int(input()) #말의 움직임으로 이동 가능 횟수
+
+w,h=map(int,input().split())  #y,x
+
+board=[]
+
+for _ in range(w):
+    board.append(list(map(int,input().split())))
+
+check=[[False]*w for _ in range(h)]
+horse=[(-2,-1),(-1,-2),(1,-2),(2,-1),(2,1),(1,2),(-1,2),(-2,1)]
+dir=[(0,1),(0,-1),(-1,0),(1,0)]
+
+q=deque()
+q.append((0,0,0,0))
+answer=-1
+
+while q:
+    x,y,cnt,flag=q.popleft()
+    check[x][y]=True
+    if x==h-1 and y==w-1:
+        answer=cnt
+        break
+    if flag==0:
+        for i,j in horse:
+            nx=x+i
+            ny=y+j
+            if nx<0 or nx>=h or ny<0 or ny>=w:
+                continue
+            if check[nx][ny]==False and board[nx][ny]==0:
+                q.append((nx,ny,cnt+1,1))
+    elif flag==1:
+        for a,b in dir:
+            nx=x+a
+            ny=y+b
+            if nx<0 or nx>=h or ny<0 or ny>=w:
+                continue
+            if check[nx][ny]==False and board[nx][ny]==0:
+                q.append((nx,ny,cnt+1,1))
+
+print(answer)
+
+#6%틀림 발생 ..흠 벽부수고 이동하기랑 비슷한거 같기도하고..
