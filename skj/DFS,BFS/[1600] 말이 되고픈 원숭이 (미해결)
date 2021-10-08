@@ -92,3 +92,52 @@ while q:
 print(answer)
 
 #3차원 배열 사용해도 안됨...무슨 방법이 있지..
+
+from collections import deque
+import sys
+input=sys.stdin.readline
+k=int(input()) #말의 움직임으로 이동 가능 횟수
+
+w,h=map(int,input().split())  #y,x
+
+board=[]
+
+for _ in range(h):
+    board.append(list(map(int,input().split())))
+
+visited=[[-1]*w for _ in range(h)]  #k사용 여부, 방문 
+
+horse=[(-2,-1),(-1,-2),(1,-2),(2,-1),(2,1),(1,2),(-1,2),(-2,1)]
+dir=[(0,1),(0,-1),(-1,0),(1,0)]
+
+q=deque()
+q.append((0,0,0,k))
+answer=-1
+
+def bfs():
+    while q:
+        x,y,cnt,night=q.popleft()
+        if night>=1:
+            for a,b in horse:
+                nx,ny=x+a,y+b
+                if 0<=nx<h and 0<=ny<w and board[nx][ny]==0:
+                    if visited[nx][ny]==-1 or visited[nx][ny]<night-1:
+                        if nx==h-1 and ny==w-1:
+                            return cnt+1
+                        visited[nx][ny]=night-1
+                        q.append((nx,ny,cnt+1,night-1))
+        for i,j in dir:
+            nx,ny=x+i,y+j
+            if 0<=nx<h and 0<=ny<w and board[nx][ny]==0:
+                    if visited[nx][ny]==-1 or visited[nx][ny]<night:
+                        if nx==h-1 and ny==w-1:
+                            return cnt+1  
+                        visited[nx][ny]=night
+                        q.append((nx,ny,cnt+1,night))
+    return -1
+if w==1 and h==1:
+    print(0)
+else:
+    print(bfs())
+    
+ #함수로 성공...재방문 하는것을 잘 처리해야한다..
