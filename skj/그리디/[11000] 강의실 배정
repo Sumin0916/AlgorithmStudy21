@@ -1,0 +1,21 @@
+import sys,heapq
+input=sys.stdin.readline
+
+n=int(input())
+room=[]
+q=[]
+
+for _ in range(n):
+    s,e=map(int,input().split())
+    heapq.heappush(room,(s,e))
+
+a,b=heapq.heappop(room)
+heapq.heappush(q,b)
+
+while room:
+    start,end=heapq.heappop(room)
+    if q[0]<=start:
+        heapq.heappop(q)
+    heapq.heappush(q,end)
+
+print(len(q))
