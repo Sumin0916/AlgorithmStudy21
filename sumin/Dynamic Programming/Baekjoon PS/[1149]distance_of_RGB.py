@@ -1,6 +1,5 @@
 import sys
 
-
 input = sys.stdin.readline
 house = int(input())
 rgb_lst = list(list(map(int, input().split())) for _ in range(house))
