@@ -1,14 +1,22 @@
 import sys
 
-def find_parent(parent, node, cal, start):
-    if node not in cal:
-        cal.add(node)
-    elif node == start:
-        return node  # 성공적인 사이클
-    else:
-        return -1  # 엉뚱한 사이클
-    if parent[node] != node:
-        find_parent(parent, parent[node], cal, start)
+def dfs(start):
+    global res
+    stack = [start]
+    track = set()
+    track.add(start)
+    while stack:
+        node = stack.pop()
+        next_node = student[node]
+        if not visited[next_node]:
+            if next_node not in track:
+                stack.append(next_node)
+                track.add(next_node)
+            else:
+                if next_node == start:
+                    return track
+    return set()
+
 
 input = sys.stdin.readline
 
@@ -18,6 +26,11 @@ for _ in range(T):
     N = int(input())
     student = list(map(int, input().split()))
     student.insert(0, 0)
-    non_team = set()
+    visited = [False] * (N+1)
+    res = set()
     for i in range(1, N+1):
-        print(i, find_parent(student, i, set(), i))
+        track = dfs(i)
+        res = res | track
+        for j in list(track):
+            visited[j] = True
+    print(N - len(res))
