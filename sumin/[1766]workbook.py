@@ -1,25 +1,32 @@
 import sys
-from collections import deque
+import heapq
 
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
-num_edge = [0 for _ in range(N+1)]
-check = [0 for _ in range(N+1)]
-edge = []
-num_edge[0] = -1
+degree = [1] * (N+1)
+graph = [[i+1] for i in range(N+1)]
+graph[N][0] = N
+degree[1] = 0
+
 for _ in range(M):
     a, b = map(int, input().split())
-    num_edge[b] += 1
-    check[a] = 1
-    edge.append([a, b])
-for i in check[1:]:
-    if not i:
-        edge.append([i, i+1])
-edge.sort(key=lambda x: x[1])
-print(edge)
-lst = deque([x for x in range(1, N+1) if not num_edge[x]])
+    degree[b] += 1
+    degree[a] -= 1
+    graph[a].append(b)
 
-while lst:
-    a = lst.popleft()
-    print(a)
+heap = []
+
+for i in range(1, N+1):
+    if degree[i] == 0:
+        heapq.heappush(heap, i)
+
+while heap:
+    now = heapq.heappop(heap)
+    print(now, end=" ")
+    for i in graph[now]:
+        degree[i] -= 1
+        if degree[i] == 0:
+            heapq.heappush(heap, i)
+
+
