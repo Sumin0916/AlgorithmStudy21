@@ -1,0 +1,18 @@
+word=input()
+
+length=0
+temp=''
+stack=[]
+
+
+for w in word:
+    if w.isdigit():
+        length+=1
+        temp=w
+    elif w=='(':
+        stack.append((temp,length-1))
+        length=0
+    else:
+        t,l=stack.pop()
+        length=(int(t)*length)+l
+print(length)
