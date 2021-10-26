@@ -1,159 +1,92 @@
 import sys
 from collections import deque
+
 input = sys.stdin.readline
+direc = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
 N, M = map(int, input().split())
-graph = []
-red = []
-blue = []
-
-for i in range(N):
-    temp = list(input().rstrip())
-    for j in range(M):
-        if temp[j] == "R":
-            red = [i, j]
-        elif temp[j] == "B":
-            blue = [i, j]
-    graph.append(temp)
+graph = list(list(input()) for _ in range(N))
 
 
-def up_tilte(red, blue):
-    global graph, N, M
-    red_row, red_col = red
-    blue_row, blue_col = blue
-    for i in range(red_row-1, -1, -1):
-        if graph[i][red_col] == "#":
-            n_red_row = i+1
-            break
-        elif graph[i][red_col] == "O":
-            if red_col == blue_col:
-                if red_row > blue_row:
-                    return "FAIL"
-            return "GOAL"
-    for i in range(blue_row-1, -1, -1):
-        if graph[i][blue_col] == "#":
-            n_blue_row = i+1
-            break
-    if n_red_row == n_blue_row:
-        if red_row < blue_row:
-            n_blue_row += 1
-        else:
-            n_red_row += 1
-    new_red = [n_red_row, red_col]
-    new_blue = [n_blue_row, blue_col]
-    return [new_red, new_blue]
+def moving_bids(direction, red_point, blue_point):
+    dr, dc = direc[direction]
+    red_row, red_col = red_point
+    blue_row, blue_col = blue_point
+    red_stat, blue_stat = True, True
+
+    while red_stat or blue_stat:
+        if red_stat:
+            nred_row = red_row+dr
+            nred_col = red_col+dc
+            if 0<= nred_row < N and 0 <= nred_col < M and graph[nred_row][nred_col] != "#":
+                if graph[nred_row][nred_col] == "O":
+                    return "END"
+                red_row = nred_row
+                red_col = nred_col
+            else:
+                red_stat = False
+        if blue_stat:
+            nblue_row = blue_row+dr
+            nblue_col = blue_col+dc
+            if 0<= nblue_row < N and 0 <= nblue_col < M and graph[nblue_row][nblue_col] != "#":
+                if graph[nblue_row][nblue_col] == "O":
+                    return "RE"
+                blue_row = nblue_row
+                blue_col = nblue_col
+            else:
+                blue_stat = False
+
+    if red_row == blue_row and red_col == blue_col:
+        if red_point[0] == blue_point[0]:
+            if red_point[1] > blue_point[1]:
+                if direction == 2:
+                    blue_col -= 1
+                elif direction == 3:
+                    red_col -= 1
+            else:
+                if direction == 2:
+                    red_col -= 1
+                elif direction == 3:
+                    blue_col -= 1
+        elif red_point[1] == blue_point[1]:
+            if red_point[0] > blue_point[0]:
+                if direction == 0:
+                    blue_col -= 1
+                elif direction == 1:
+                    red_col -= 1
+            else:
+                if direction == 0:
+                    red_col -= 1
+                elif direction == 1:
+                    blue_col -= 1
+
+    return (red_row, red_col), (blue_row, blue_col)
 
 
-def down_tilte(red, blue):
-    global graph, N, M
-    red_row, red_col = red
-    blue_row, blue_col = blue
-    for i in range(red_row+1, N):
-        if graph[i][red_col] == "#":
-            n_red_row = i-1
-            break
-        elif graph[i][red_col] == "O":
-            if red_col == blue_col:
-                if red_row < blue_row:
-                    return "FAIL"
-            return "GOAL"
-    for i in range(blue_row+1, N):
-        if graph[i][blue_col] == "#":
-            n_blue_row = i-1
-            break
-    if n_red_row == n_blue_row:
-        if red_row > blue_row:
-            n_blue_row -= 1
-        else:
-            n_red_row -= 1
-    new_red = [n_red_row, red_col]
-    new_blue = [n_blue_row, blue_col]
-    return [new_red, new_blue]
+def bfs():
+    count = 0
+    for i in range(N):
+        for j in range(M):
+            if graph[i][j] == "R":
+                red_point = (i, j)
+            elif graph[i][j] == "B":
+                blue_point = (i, j)
+    point_queue = deque()
+    point_queue.append((red_point, blue_point))
 
-
-def left_tilte(red, blue):
-    global graph, N, M
-    red_row, red_col = red
-    blue_row, blue_col = blue
-    for i in range(red_col-1, -1, -1):
-        if graph[red_row][i] == "#":
-            n_red_col = i+1
-            break
-        elif graph[red_row][i] == "O":
-            if red_row == blue_row:
-                if red_col > blue_col:
-                    return "FAIL"
-            return "GOAL"
-    for i in range(blue_col-1, -1, -1):
-        if graph[blue_row][i] == "#":
-            n_blue_col = i+1
-            break
-    if n_red_col == n_blue_col:
-        if red_col < blue_col:
-            n_blue_col += 1
-        else:
-            n_red_col += 1
-    new_red = [red_row, n_red_col]
-    new_blue = [blue_row, n_blue_col]
-    return [new_red, new_blue]
-
-
-def right_tilte(red, blue):
-    global graph, N, M
-    red_row, red_col = red
-    blue_row, blue_col = blue
-    for i in range(red_col+1, N):
-        if graph[red_row][i] == "#":
-            n_red_col = i-1
-            break
-        elif graph[red_row][i] == "O":
-            if red_row == blue_row:
-                if red_col < blue_col:
-                    return "FAIL"
-            return "GOAL"
-    for i in range(blue_col+1, N):
-        if graph[blue_row][i] == "#":
-            n_blue_col = i-1
-            break
-    if n_red_col == n_blue_col:
-        if red_col < blue_col:
-            n_red_col -= 1
-        else:
-            n_blue_col -= 1
-    new_red = [red_row, n_red_col]
-    new_blue = [blue_row, n_blue_col]
-    return [new_red, new_blue]
-
-
-def BFS(graph):
-    global red, blue
-    count =  0
-    queue = deque()
-    queue.append([red, blue])
-    visited = [list(False for _ in range(M)) for _ in range(N)]
-    visited[red[0]][red[1]] = True
-    for _ in range(10):
-        print(queue)
+    while point_queue:
         count += 1
-        temp = deque()
-        while queue:
-            red_lst, blue_lst = queue.popleft()
-            temp_lst = []
-            temp_lst.append(up_tilte(red_lst, blue_lst))
-            temp_lst.append(down_tilte(red_lst, blue_lst))
-            temp_lst.append(left_tilte(red_lst, blue_lst))
-            temp_lst.append(right_tilte(red_lst, blue_lst))
-            print(temp_lst)
-            for res in temp_lst:
-                if res == "GOAL":
+        while point_queue:
+            red_point, blue_point = point_queue.popleft()
+            for i in range(4):
+                res = moving_bids(i, red_point, blue_point)
+                if res == "END":
                     return count
-                elif res != "FAIL" and not visited[res[0][0]][res[0][1]]:
-                    print("??!")
-                    visited[res[0][0]][res[0][1]] = True
-                    temp.append(res)
-        if not temp:
-            return -1
-        queue = temp
-    return -1
+                elif res == "RE":
+                    pass
+                else:
+                    point_queue.append(tuple(res))
 
-print(BFS(graph))
+print(bfs())
+
+
