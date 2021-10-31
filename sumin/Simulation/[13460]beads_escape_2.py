@@ -66,6 +66,7 @@ def tilt_board(direc, red_point, blue_point):
                 new_blue_point[1] += 1
     return [new_red_point, new_blue_point]
 
+
 def bfs(queue):
     cnt = 1
     while queue and cnt < 11:
