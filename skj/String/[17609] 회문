@@ -1,0 +1,30 @@
+n=int(input())
+
+def second(left,right,word):
+    while left<right:
+        if word[left]==word[right]:
+            left+=1
+            right-=1
+        else:
+            return False
+    return True
+
+def first(left,right,word):
+    while left<right:
+        if word[left]==word[right]:
+            left+=1
+            right-=1
+        else:
+            a=second(left+1,right,word)
+            b=second(left,right-1,word)
+            if a==True or b==True:
+                return 1
+            else:
+                return 2
+    return 0 
+        
+for _ in range(n):
+    word=input()
+    c=first(0,len(word)-1,word)
+    print(c)
+    
