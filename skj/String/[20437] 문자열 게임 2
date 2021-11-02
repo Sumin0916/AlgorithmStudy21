@@ -1,0 +1,29 @@
+import sys
+from collections import defaultdict
+input=sys.stdin.readline
+t=int(input())
+
+
+for _ in range(t):
+    min_len,max_len=10000,0
+    word=input()
+    k=int(input())
+    alpha=defaultdict(list)
+    for i in range(len(word)):
+        if word.count(word[i])>=k:
+            alpha[word[i]].append(i)
+
+    if not alpha:
+        print(-1)
+        continue
+
+    for i in alpha.values():
+        for j in range(len(i)-k+1):
+            temp=i[j+k-1]-i[j]+1
+
+            if min_len>temp:
+                min_len=temp
+            if temp>max_len:
+                max_len=temp
+
+    print(min_len,max_len)
