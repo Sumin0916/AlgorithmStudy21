@@ -5,33 +5,62 @@ board = list(list(map(int, input().split())) for _ in range(N))
 ans = 0
 BISHOP = -1
 
-def can_place(row, col):
-    for r, c in bishop_lst:
-        if col != c and row != r:
-            if abs((row-r)/(col-c)) == 1:
-                return False
-    return True
+def set_board(row, col, num):
+    global temp
+    for i in range(N):
+        # 좌상 대각선
+        nx, ny = row - i, col - i
+        if 0 <= nx < N and 0 <= ny < N:
+            temp[nx][ny] += num
+        # 좌하 대각선
+        nx, ny = row + i, col - i
+        if 0 <= nx < N and 0 <= ny < N:
+            temp[nx][ny] += num
+        # 우상 대각선
+        nx, ny = row - i, col + i
+        if 0 <= nx < N and 0 <= ny < N:
+            temp[nx][ny] += num
+        # 우하 대각선
+        nx, ny = row + i, col + i
+        if 0 <= nx < N and 0 <= ny < N:
+            temp[nx][ny] += num
 
 
 def simulator(order, cnt):
     global board, ans, bishop_lst
-    for i in range(order, lst_len):
-        row, col = can_place_lst[i]
-        if can_place(row, col):
-            bishop_lst.append([row, col])
+    if order >= lst_len:
+        ans = max(ans, cnt)
+        return
+    row, col = can_place_lst[order]
+    if not temp[row][col]:
+            set_board(row, col, 1)
             simulator(order+1, cnt+1)
-            bishop_lst.pop()
+            set_board(row, col, -1)
+            simulator(order, cnt)
+    else:
         simulator(order+1, cnt)
-    ans = max(ans, cnt)
 
 can_place_lst = []
-bishop_lst = []
+temp = [[0]*N for _ in range(N)]
+
 for i in range(N):
     for j in range(N):
         if board[i][j] == 1:
-            can_place_lst.append([i, j])
+            if (i+j) % 2 == 0:
+                can_place_lst.append([i, j])
 lst_len = len(can_place_lst)
-print(can_place_lst)
 simulator(0, 0)
-print(ans)
+r1 = ans
+ans = 0
+can_place_lst = []
+temp = [[0]*N for _ in range(N)]
+for i in range(N):
+    for j in range(N):
+        if board[i][j] == 1:
+            if (i+j) % 2 == 1:
+                can_place_lst.append([i, j])
+lst_len = len(can_place_lst)
+simulator(0, 0)
+r2 = ans
 
+print(r1+r2)
