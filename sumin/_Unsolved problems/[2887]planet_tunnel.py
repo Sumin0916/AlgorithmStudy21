@@ -1,5 +1,4 @@
 import sys
-import heapq
 
 input = sys.stdin.readline
 
@@ -18,9 +17,9 @@ def union_parent(parent, a, b):
         parent[a] = b
 
 
-def kruskal(edge):
+def kruskal():
     weight = 0
-    for i in edge:
+    for i in cost_lst:
         a, b = i[1], i[2]
         if find_parent(parent, a) != find_parent(parent, b):
             union_parent(parent, a, b)
@@ -28,16 +27,19 @@ def kruskal(edge):
     return weight
 
 N = int(input())
-planet_lst = list(list(map(int, input().split())) for _ in range(N))
-parent = [x for x in range(N)]
-weight = 0
-
+planet_lst = []
 for i in range(N):
-    x1, y1, z1 = planet_lst[i]
-    for j in range(i+1, N):
-        x2, y2, z2 = planet_lst[j]
-        a, b = i, j
-        if find_parent(parent, a) != find_parent(parent, b):
-            union_parent(parent, a, b)
-            weight += min(abs(x1-x2), abs(y1-y2), abs(z1-z2))
-print(weight)
+    x, y, z = map(int, input().split())
+    planet_lst.append([x, y, z, i])
+
+parent = [x for x in range(N)]
+cost_lst = []
+
+for i in range(3):
+    planet_lst.sort(key=lambda x: x[i])
+    for j in range(1, N):
+        cost_lst.append([planet_lst[j][i]-planet_lst[j-1][i], planet_lst[j][3], planet_lst[j-1][3]])
+
+cost_lst.sort(key=lambda x:x[0])
+
+print(kruskal())
