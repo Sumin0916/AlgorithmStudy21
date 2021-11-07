@@ -41,5 +41,5 @@ for i in range(3):
         cost_lst.append([planet_lst[j][i]-planet_lst[j-1][i], planet_lst[j][3], planet_lst[j-1][3]])
 
 cost_lst.sort(key=lambda x:x[0])
-print(cost_lst)
+
 print(kruskal())
