@@ -3,10 +3,10 @@ import copy
 def turn_stat(row, col):
     global stat
     for dr, dc in p_lst:
-        row += dr
-        col += dc
-        if 0 <= row < 10 and 0 <= col < 10:
-            stat[row][col] = not stat[row][col]
+        nr = row + dr
+        nc = col + dc
+        if 0 <= nr < 10 and 0 <= nc < 10:
+            stat[nr][nc] = not stat[nr][nc]
 
 p_lst = [(1, 0), (-1, 0), (0, 1), (0, -1), (0, 0)]
 graph = [list(input()) for _ in range(10)]
