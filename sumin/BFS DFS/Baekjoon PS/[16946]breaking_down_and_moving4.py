@@ -30,10 +30,10 @@ N, M = map(int, input().split())
 graph = list(list(input().rstrip()) for _ in range(N))
 
 direc = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-res = [[0 for _ in range(M)] for _ in range(N)]
+res = [[(0, 0) for _ in range(M)] for _ in range(N)]
 visited = [[False for _ in range(M)] for _ in range(N)]
 p_lst = []
-c = 0
+c = 1
 
 for i in range(N):
     for j in range(M):
@@ -45,15 +45,16 @@ for i in range(N):
             p_lst.append((i, j))
 
 for r, c in p_lst:
-    s = set()
+    color_set = set()
     linked_num = 1
     for dr, dc in direc:
         nr = dr + r
         nc = dc + c
         if 0 <= nr < N and 0 <= nc < M:
-            if graph[nr][nc] == "0" and res[nr][nc][1] not in s:
-                linked_num += res[nr][nc][0]
-                s.add(res[nr][nc][1])
+            if graph[nr][nc] == "0":
+                if res[nr][nc][1] not in color_set:
+                    linked_num += res[nr][nc][0]
+                    color_set.add(res[nr][nc][1])
     linked_num %= 10
     graph[r][c] = str(linked_num)
 
