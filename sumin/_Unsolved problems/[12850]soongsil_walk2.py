@@ -1,1 +1,0 @@
-D = int(input())
